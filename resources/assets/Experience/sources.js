@@ -72,3 +72,26 @@ export default [
         path: "static/models/Blocks/Blokje 4.glb",
     },
 ];
+
+async function fetchBlocks() {
+    try {
+        const response = await fetch("http://piece-of-tast-3d.test/api/models");
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        const blocks = await response.json();
+        // blocks.forEach((block, index) => {
+        //     sources.push({
+        //         name: `block${index + 1}`,
+        //         type: "gltfModel",
+        //         path: block.path,
+        //     });
+        // });
+        console.log("Blocks fetched:", blocks);
+    } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+    }
+}
+
+// Call the function to fetch blocks and update the sources array
+fetchBlocks();
