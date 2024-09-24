@@ -33,10 +33,10 @@ export default class Block {
         // Distance from center
         const radius = 10;
         const x = Math.sin(angle) * radius;
-        const z = Math.cos(angle) * radius;
+        const y = Math.cos(angle) * radius;
 
         this.model.position.x = x;
-        this.model.position.z = z;
+        this.model.position.y = y;
 
         this.model.lookAt(new THREE.Vector3(0, 0, 0)); // Look towards the center
 

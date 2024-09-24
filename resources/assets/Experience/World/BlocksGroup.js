@@ -41,14 +41,14 @@ export default class BlocksGroup {
                 this.blocks.push(block); // Store Block instance in the array
             });
         });
-        this.blocksGroup.position.z = -10;
+        this.blocksGroup.position.y = -12;
         this.scene.add(this.blocksGroup);
     }
 
     updateAngle() {
         // Inverteer de positie
         this.activeBlockAngle =
-            -((Math.PI * 2) / this.numberOfBlocks) * this.world.currentPosition;
+            ((Math.PI * 2) / this.numberOfBlocks) * this.world.currentPosition;
     }
 
     update() {
@@ -56,8 +56,8 @@ export default class BlocksGroup {
             this.updateAngle();
 
             // Gebruik linear interpolation (lerp) om de rotatie soepel te animeren
-            this.blocksGroup.rotation.y = THREE.MathUtils.lerp(
-                this.blocksGroup.rotation.y,
+            this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
+                this.blocksGroup.rotation.z,
                 this.activeBlockAngle,
                 0.1 // Interpolatie snelheid (0.1 is een goede start, je kunt dit aanpassen)
             );
