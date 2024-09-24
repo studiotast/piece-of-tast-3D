@@ -22,7 +22,7 @@ export default class World {
         this.currentPosition = 1;
         this.numberOfBlocks = blocksData.length;
 
-        this.getModulo();
+        this.updateModulo();
 
         // Debug
         if (this.debug.active) {
@@ -57,7 +57,7 @@ export default class World {
         }
     }
 
-    getModulo() {
+    updateModulo() {
         this.modulo =
             this.currentPosition < 0
                 ? ((this.currentPosition % this.numberOfBlocks) +
@@ -69,12 +69,12 @@ export default class World {
     increase() {
         this.currentPosition = this.currentPosition + 1;
         console.log(this.currentPosition);
-        this.getModulo();
+        this.updateModulo();
     }
     decrease() {
         this.currentPosition = this.currentPosition - 1;
         console.log(this.currentPosition);
-        this.getModulo();
+        this.updateModulo();
     }
     switchWorldStatus() {
         if (this.wordStatus === "blocksCarousel") {
