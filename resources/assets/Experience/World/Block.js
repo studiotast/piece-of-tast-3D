@@ -24,6 +24,16 @@ export default class Block {
         }
 
         this.setModel(data, angle);
+
+        // Willekeurige rotatiesnelheden instellen tussen 0.0001 en 0.00015
+        this.rotationSpeedX = 0.0001 + Math.random() * (0.00015 - 0.0001);
+        this.rotationSpeedY = 0.0001 + Math.random() * (0.00015 - 0.0001);
+        this.rotationSpeedZ = 0.0001 + Math.random() * (0.00015 - 0.0001);
+
+        // Willekeurige richting instellen (1 of -1)
+        this.directionX = Math.random() > 0.5 ? 1 : -1;
+        this.directionY = Math.random() > 0.5 ? 1 : -1;
+        this.directionZ = Math.random() > 0.5 ? 1 : -1;
     }
 
     setModel(data, angle) {
@@ -31,7 +41,7 @@ export default class Block {
         this.model.scale.set(1, 1, 1);
 
         // Distance from center
-        const radius = 10;
+        const radius = 9.5;
         const x = Math.sin(angle) * radius;
         const y = Math.cos(angle) * radius;
 
@@ -39,6 +49,11 @@ export default class Block {
         this.model.position.y = y;
 
         this.model.lookAt(new THREE.Vector3(0, 0, 0)); // Look towards the center
+
+        // get it to a scale from -0.5 to 0.5 * amplifier
+        const randomRotation = (Math.random() - 0.5) * 2;
+        this.model.rotation.z = randomRotation;
+        this.model.rotation.x = randomRotation;
 
         // Voeg het model toe aan de groep
         this.group.add(this.model);
@@ -51,15 +66,31 @@ export default class Block {
     }
 
     update() {
+        // // Pas rotatie toe
+        // this.model.rotation.y =
+        //     this.model.rotation.y + this.time.delta * this.rotationSpeedY;
+        // this.model.rotation.z =
+        //     this.model.rotation.z + this.time.delta * this.rotationSpeedZ;
+        // this.model.rotation.x =
+        //     this.model.rotation.x + this.time.delta * this.rotationSpeedX;
+
+        // Pas rotatie toe met richtingfactor
+        this.model.rotation.y +=
+            this.time.delta * this.rotationSpeedY * this.directionY;
+        this.model.rotation.z +=
+            this.time.delta * this.rotationSpeedZ * this.directionZ;
+        this.model.rotation.x +=
+            this.time.delta * this.rotationSpeedX * this.directionX;
+
         if (this.world.modulo === this.index) {
-            this.model.scale.set(1, 1, 1); // active block
+            this.model.scale.set(1.05, 1.05, 1.05); // active block
         } else if (
             this.world.modulo === this.index + 1 ||
             this.world.modulo === this.index - 1
         ) {
-            this.model.scale.set(0.7, 0.7, 0.7); // nearby blocks
+            this.model.scale.set(0.8, 0.8, 0.8); // nearby blocks
         } else {
-            this.model.scale.set(0.55, 0.55, 0.55); // farther away blocks
+            this.model.scale.set(0.6, 0.6, 0.6); // farther away blocks
         }
     }
 }
