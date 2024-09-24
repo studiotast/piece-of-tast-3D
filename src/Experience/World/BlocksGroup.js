@@ -12,12 +12,13 @@ export default class BlocksGroup {
     this.scene = this.experience.scene;
 
     this.world = new World();
-    this.activeBlockPosition = this.world.activeBlockPosition;
+    this.currentPosition = this.world.currentPosition;
     this.blocks = []; // Array to hold Block instances
 
     this.numberOfBlocks = blocksData.length;
-    this.activeBlockAngle =
-      ((Math.PI * 2) / this.numberOfBlocks) * this.activeBlockPosition;
+    this.oneStep = (Math.PI * 2) / this.numberOfBlocks;
+
+    this.updateAngle();
 
     this.setModel();
   }
@@ -40,8 +41,10 @@ export default class BlocksGroup {
   }
 
   updateAngle() {
+    // Inverteer de positie
     this.activeBlockAngle =
-      ((Math.PI * 2) / this.numberOfBlocks) * this.world.activeBlockPosition;
+      -((Math.PI * 2) / this.numberOfBlocks) * this.world.currentPosition;
+
     console.log(this.activeBlockAngle);
   }
 

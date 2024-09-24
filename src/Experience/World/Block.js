@@ -51,12 +51,16 @@ export default class Block {
   setAnimation() {}
 
   update() {
-    // Vergelijk activeBlockPosition en index
-    if (this.world.activeBlockPosition === this.index) {
-      this.model.scale.set(2, 2, 2); // Vergroot de schaal van de actieve block
-      console.log(this.world.activeBlockPosition, this.index);
+    const relativePosition = Math.abs(this.world.currentPosition - this.index);
+
+    // Scale based on proximity to active position
+    let scale;
+    if (relativePosition === 0) {
+      this.model.scale.set(1, 1, 1); // active block
+    } else if (relativePosition === 1) {
+      this.model.scale.set(0.7, 0.7, 0.7); // nearby blocks
     } else {
-      this.model.scale.set(1, 1, 1); // Zet de schaal terug naar normaal voor niet-actieve blocks
+      this.model.scale.set(0.55, 0.55, 0.55); // farther away blocks
     }
   }
 }

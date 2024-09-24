@@ -18,8 +18,8 @@ export default class World {
     this.resources = this.experience.resources;
     this.debug = this.experience.debug;
 
-    this.activeBlockPosition = 0;
-    console.log(this.activeBlockPosition);
+    this.currentPosition = 1;
+    console.log(this.currentPosition);
 
     // Debug
     if (this.debug.active) {
@@ -38,13 +38,13 @@ export default class World {
     if (this.debug.active) {
       const debugObject = {
         increase: () => {
-          this.activeBlockPosition = this.activeBlockPosition + 1;
-          console.log(this.activeBlockPosition);
+          this.currentPosition = this.currentPosition + 1;
+          console.log(this.currentPosition);
         },
         decrease: () => {
-          this.activeBlockPosition = this.activeBlockPosition - 1;
+          this.currentPosition = this.currentPosition - 1;
           this.blocksGroup.update();
-          console.log(this.activeBlockPosition);
+          console.log(this.currentPosition);
         },
       };
       this.debugFolder.add(debugObject, "increase");
