@@ -41,7 +41,7 @@ export default class BlocksGroup {
                 this.blocks.push(block); // Store Block instance in the array
             });
         });
-
+        this.blocksGroup.position.z = -10;
         this.scene.add(this.blocksGroup);
     }
 
@@ -49,8 +49,6 @@ export default class BlocksGroup {
         // Inverteer de positie
         this.activeBlockAngle =
             -((Math.PI * 2) / this.numberOfBlocks) * this.world.currentPosition;
-
-        console.log(this.activeBlockAngle);
     }
 
     update() {

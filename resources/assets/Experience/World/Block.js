@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import Experience from "../Experience.js";
 import World from "./World.js";
+import blocksData from "./data/blocksData.js";
 export default class Block {
     constructor(data, index, group, angle) {
         this.experience = new Experience();
@@ -10,6 +11,8 @@ export default class Block {
         this.group = group; // Add the group reference
 
         this.world = new World();
+
+        this.numberOfBlocks = blocksData.length;
         this.index = index;
 
         // Selecteer de juiste resource op basis van de 'model' eigenschap
@@ -21,7 +24,6 @@ export default class Block {
         }
 
         this.setModel(data, angle);
-        this.setAnimation();
     }
 
     setModel(data, angle) {
@@ -48,18 +50,13 @@ export default class Block {
         });
     }
 
-    setAnimation() {}
-
     update() {
-        const relativePosition = Math.abs(
-            this.world.currentPosition - this.index
-        );
-
-        // Scale based on proximity to active position
-        let scale;
-        if (relativePosition === 0) {
+        if (this.world.modulo === this.index) {
             this.model.scale.set(1, 1, 1); // active block
-        } else if (relativePosition === 1) {
+        } else if (
+            this.world.modulo === this.index + 1 ||
+            this.world.modulo === this.index - 1
+        ) {
             this.model.scale.set(0.7, 0.7, 0.7); // nearby blocks
         } else {
             this.model.scale.set(0.55, 0.55, 0.55); // farther away blocks

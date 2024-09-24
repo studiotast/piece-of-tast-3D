@@ -19,7 +19,9 @@ export default class World {
         this.debug = this.experience.debug;
 
         this.currentPosition = 1;
-        console.log(this.currentPosition);
+        this.numberOfBlocks = blocksData.length;
+
+        this.getModulo();
 
         // Debug
         if (this.debug.active) {
@@ -37,15 +39,8 @@ export default class World {
         // Debug
         if (this.debug.active) {
             const debugObject = {
-                increase: () => {
-                    this.currentPosition = this.currentPosition + 1;
-                    console.log(this.currentPosition);
-                },
-                decrease: () => {
-                    this.currentPosition = this.currentPosition - 1;
-                    this.blocksGroup.update();
-                    console.log(this.currentPosition);
-                },
+                increase: () => this.increase(),
+                decrease: () => this.decrease(),
             };
             this.debugFolder.add(debugObject, "increase");
             this.debugFolder.add(debugObject, "decrease");
@@ -57,5 +52,25 @@ export default class World {
         if (this.blocksGroup) {
             this.blocksGroup.update();
         }
+    }
+
+    getModulo() {
+        this.modulo =
+            this.currentPosition < 0
+                ? ((this.currentPosition % this.numberOfBlocks) +
+                      this.numberOfBlocks) %
+                  this.numberOfBlocks
+                : this.currentPosition % this.numberOfBlocks;
+    }
+
+    increase() {
+        this.currentPosition = this.currentPosition + 1;
+        console.log(this.currentPosition);
+        this.getModulo();
+    }
+    decrease() {
+        this.currentPosition = this.currentPosition - 1;
+        console.log(this.currentPosition);
+        this.getModulo();
     }
 }
