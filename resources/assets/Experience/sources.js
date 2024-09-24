@@ -61,4 +61,14 @@ export default [
         type: "gltfModel",
         path: "static/models/Blocks/Blokje 2.glb",
     },
+    {
+        name: "block3",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 3.glb",
+    },
+    {
+        name: "block4",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 4.glb",
+    },
 ];
