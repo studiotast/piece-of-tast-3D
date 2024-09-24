@@ -74,7 +74,7 @@ export default class Block {
         this.model.rotation.x +=
             this.time.delta * this.rotationSpeedX * this.directionX;
 
-        if (this.world.wordStatus === "blocksCarousel") {
+        if (this.world.worldStatus === "blocksCarousel") {
             if (this.world.modulo === this.index) {
                 this.model.scale.set(1.05, 1.05, 1.05); // active block
             } else if (
