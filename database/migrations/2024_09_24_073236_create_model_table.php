@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('models', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description')->nullable();
             $table->string('file_path'); // Path to the GLTF file
             $table->timestamps();
         });
