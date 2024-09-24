@@ -17,6 +17,7 @@ export default class World {
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
         this.debug = this.experience.debug;
+        this.wordStatus = "blocksCarousel";
 
         this.currentPosition = 1;
         this.numberOfBlocks = blocksData.length;
@@ -41,9 +42,11 @@ export default class World {
             const debugObject = {
                 increase: () => this.increase(),
                 decrease: () => this.decrease(),
+                switchWorldStatus: () => this.switchWorldStatus(),
             };
             this.debugFolder.add(debugObject, "increase");
             this.debugFolder.add(debugObject, "decrease");
+            this.debugFolder.add(debugObject, "switchWorldStatus");
         }
     }
 
@@ -72,5 +75,14 @@ export default class World {
         this.currentPosition = this.currentPosition - 1;
         console.log(this.currentPosition);
         this.getModulo();
+    }
+    switchWorldStatus() {
+        if (this.wordStatus === "blocksCarousel") {
+            this.wordStatus = "space";
+            console.log(this.wordStatus, "ik ben opgepakt", this.modulo);
+        } else if (this.wordStatus === "space") {
+            this.wordStatus = "blocksCarousel";
+            console.log(this.wordStatus, "ik ben neergelegd", this.modulo);
+        }
     }
 }

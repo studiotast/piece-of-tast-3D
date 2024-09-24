@@ -66,14 +66,6 @@ export default class Block {
     }
 
     update() {
-        // // Pas rotatie toe
-        // this.model.rotation.y =
-        //     this.model.rotation.y + this.time.delta * this.rotationSpeedY;
-        // this.model.rotation.z =
-        //     this.model.rotation.z + this.time.delta * this.rotationSpeedZ;
-        // this.model.rotation.x =
-        //     this.model.rotation.x + this.time.delta * this.rotationSpeedX;
-
         // Pas rotatie toe met richtingfactor
         this.model.rotation.y +=
             this.time.delta * this.rotationSpeedY * this.directionY;
@@ -82,15 +74,22 @@ export default class Block {
         this.model.rotation.x +=
             this.time.delta * this.rotationSpeedX * this.directionX;
 
-        if (this.world.modulo === this.index) {
-            this.model.scale.set(1.05, 1.05, 1.05); // active block
-        } else if (
-            this.world.modulo === this.index + 1 ||
-            this.world.modulo === this.index - 1
-        ) {
-            this.model.scale.set(0.8, 0.8, 0.8); // nearby blocks
+        if (this.world.wordStatus === "blocksCarousel") {
+            if (this.world.modulo === this.index) {
+                this.model.scale.set(1.05, 1.05, 1.05); // active block
+            } else if (
+                this.world.modulo === this.index + 1 ||
+                this.world.modulo === this.index - 1
+            ) {
+                this.model.scale.set(0.8, 0.8, 0.8); // nearby blocks
+            } else {
+                this.model.scale.set(0.6, 0.6, 0.6); // farther away blocks
+            }
         } else {
-            this.model.scale.set(0.6, 0.6, 0.6); // farther away blocks
+            this.model.scale.set(0.75, 0.75, 0.75);
+            if (this.world.modulo === this.index) {
+                this.model.scale.set(1.25, 1.25, 1.25); // active block
+            }
         }
     }
 }
