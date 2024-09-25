@@ -69,7 +69,6 @@ export default class Block {
     }
 
     placeInCarousel() {
-        console.log("place in carousel");
         const targetX = Math.sin(this.angle) * this.radius;
         const targetY = Math.cos(this.angle) * this.radius;
         this.AnimateModelPosition(targetX, targetY, 0);

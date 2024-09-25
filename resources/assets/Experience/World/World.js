@@ -68,21 +68,17 @@ export default class World {
 
     increase() {
         this.currentPosition = this.currentPosition + 1;
-        console.log(this.currentPosition);
         this.updateModulo();
     }
     decrease() {
         this.currentPosition = this.currentPosition - 1;
-        console.log(this.currentPosition);
         this.updateModulo();
     }
     switchWorldStatus() {
         if (this.worldStatus === "blocksCarousel") {
             this.worldStatus = "space";
-            console.log(this.worldStatus, "ik ben opgepakt", this.modulo);
         } else if (this.worldStatus === "space") {
             this.worldStatus = "blocksCarousel";
-            console.log(this.worldStatus, "ik ben neergelegd", this.modulo);
         }
     }
 }
