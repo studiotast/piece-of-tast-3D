@@ -14,6 +14,7 @@ export default class Block {
         this.index = index;
         this.numberOfBlocks = blocksData.length;
         this.resource = this.resources.items[data.name];
+        this.angle = angle;
 
         // Sla de vorige wereldstatus op
         this.previousWorldStatus = this.world.worldStatus;
@@ -23,7 +24,7 @@ export default class Block {
             return;
         }
 
-        this.setModel(data, angle);
+        this.setModel(data);
         this.setRandomRotationSpeed();
         this.setRandomDirection();
         this.setRandomSpacePosition();
@@ -66,10 +67,10 @@ export default class Block {
         );
     }
 
-    setModel(data, angle) {
+    setModel(data) {
         this.model = this.resource.scene.clone();
         this.model.scale.set(1, 1, 1);
-        this.setModelPosition(angle);
+        this.setModelPosition(this.angle);
         this.setModelRotation();
         this.group.add(this.model);
         this.model.traverse((child) => {
@@ -79,10 +80,10 @@ export default class Block {
         });
     }
 
-    setModelPosition(angle) {
+    setModelPosition() {
         const radius = 9.5;
-        const x = Math.sin(angle) * radius;
-        const y = Math.cos(angle) * radius;
+        const x = Math.sin(this.angle) * radius;
+        const y = Math.cos(this.angle) * radius;
         this.model.position.set(x, y, 0);
         this.model.lookAt(new THREE.Vector3(0, 0, 0));
     }
@@ -94,9 +95,8 @@ export default class Block {
 
     placeInCarousel() {
         const radius = 9.5;
-        const angle = (this.index / this.numberOfBlocks) * Math.PI * 2; // Verdeel blokken gelijkmatig in een cirkel
-        const targetX = Math.sin(angle) * radius;
-        const targetY = Math.cos(angle) * radius;
+        const targetX = Math.sin(this.angle) * radius;
+        const targetY = Math.cos(this.angle) * radius;
 
         // Lerp de huidige positie naar de target positie voor animatie
         this.model.position.x = THREE.MathUtils.lerp(
