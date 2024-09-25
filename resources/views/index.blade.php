@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="https://use.typekit.net/haq4djv.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Code structuring</title>
@@ -10,6 +11,18 @@
 
 <body>
   <canvas class="webgl"></canvas>
+  <div class='bottom'>
+    <div class='left'>
+      <div>
+        <FontAwesomeIcon icon={faHome} />
+      </div>
+      <div>
+        <FontAwesomeIcon icon={faAngle90} />
+      </div>
+    </div>
+    <p>#nummer</p>
+  </div>
+  <div class='circle'></div>
   <img class="overlay" src="images/overlay.png" />
   @vite('resources/assets/script.js')
   <script>

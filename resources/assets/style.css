@@ -1,12 +1,79 @@
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
 }
 
-html,
-body {
-    overflow: hidden;
+:root {
+    --dark-slate-grey: #003232;
+    --black: black;
+    --medium-aquamarine: #36b393;
+    --medium-spring-green: #46e6aa;
+    --white: white;
+    --light-grey: #cfcfcf;
+    --seashell: #f7f2ec;
+    --grey: #797979;
+    --white-smoke: #f9f9f9;
+    --pale-grey: #f0f0f0;
+    --fresh-salmon: #ff8080;
+    --light-coral: #66ffd7;
+
+    /* // font-sizes */
+    --font-h1: 30px;
+    --font-h2: 24px;
+    --font-h3: 18px;
+    --font-h4: 14px;
+    --font-paragraph: 16px;
+    --font-small: 14px;
+    --font-extra-small: 12px;
+
+    /*font family*/
+    --font-heading: bilo, "sans-serif";
+    --font-paragraph: canada-type-gibson, "sans-serif";
+
+    /* // spacing */
+    --spacing2: 2px;
+    --spacing4: 4px;
+    --spacing5: 5px;
+    --spacing8: 8px;
+    --spacing10: 10px;
+    --spacing15: 15px;
+    --spacing20: 20px;
+    --spacing25: 25px;
+    --spacing30: 30px;
+    --spacing35: 35px;
+    --spacing40: 40px;
+
+    /* // Box-shadow */
+    --box-shadow: 0 0px 10px rgba(0, 0, 0, 0.05);
+
+    /* // Border-radius */
+    --border-radius: 7px;
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: bilo, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+p {
+    font-family: canada-type-gibson, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* End of css reset ______________________ */
 
 .webgl {
     position: fixed;
@@ -21,4 +88,41 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+.bottom {
+    position: fixed;
+    height: 106px;
+    width: 100%;
+    bottom: 0;
+    background-color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 28px;
+}
+.bottom .left {
+    align-items: center;
+    display: flex;
+    gap: 60px;
+}
+.bottom svg {
+    font-size: 25px;
+}
+.bottom p {
+    font-size: 20px;
+    font-weight: 600;
+    width: 105px;
+    text-align: center;
+}
+.circle {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 250px;
+    width: 800px;
+    background-color: var(--pale-grey);
+    border-top-left-radius: 999px;
+    border-top-right-radius: 999px;
 }
