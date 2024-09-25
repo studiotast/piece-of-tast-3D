@@ -15,8 +15,6 @@ export default class Block {
         this.numberOfBlocks = blocksData.length;
         this.resource = this.resources.items[data.name];
         this.angle = angle;
-        this.randomRotation = (Math.random() - 0.5) * 2;
-        this.previousWorldStatus = this.world.worldStatus;
 
         if (!this.resource) {
             console.error(`Geen resource gevonden voor model: ${data.name}`);
@@ -60,7 +58,6 @@ export default class Block {
         this.model = this.resource.scene.clone();
         this.model.scale.set(1, 1, 1);
         this.setModelPosition();
-        this.setModelRotation();
         this.group.add(this.model);
     }
 
@@ -69,10 +66,6 @@ export default class Block {
         const x = Math.sin(this.angle) * radius;
         const y = Math.cos(this.angle) * radius;
         this.model.position.set(x, y, 0);
-    }
-
-    setModelRotation() {
-        this.model.rotation.set(this.randomRotation, 0, this.randomRotation);
     }
 
     placeInCarousel() {
