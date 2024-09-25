@@ -110,10 +110,11 @@ p {
     font-size: 25px;
 }
 .bottom p {
-    font-size: 20px;
+    font-size: 32px;
     font-weight: 600;
     width: 105px;
     text-align: center;
+    font-family: bilo, sans-serif;
 }
 .circle {
     position: fixed;

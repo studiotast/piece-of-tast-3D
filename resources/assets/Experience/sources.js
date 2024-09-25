@@ -71,6 +71,76 @@ export default [
         type: "gltfModel",
         path: "static/models/Blocks/Blokje 4.glb",
     },
+    {
+        name: "block5",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 5.glb",
+    },
+    {
+        name: "block6",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 6.glb",
+    },
+    {
+        name: "block7",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 7.glb",
+    },
+    {
+        name: "block8",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 8.glb",
+    },
+    {
+        name: "block9",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 9.glb",
+    },
+    {
+        name: "block10",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 10.glb",
+    },
+    {
+        name: "block11",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 11.glb",
+    },
+    {
+        name: "block12",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 12.glb",
+    },
+    {
+        name: "block13",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 13.glb",
+    },
+    {
+        name: "block14",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 14.glb",
+    },
+    {
+        name: "block15",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 15.glb",
+    },
+    {
+        name: "block16",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 16.glb",
+    },
+    {
+        name: "block17",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 17.glb",
+    },
+    {
+        name: "block18",
+        type: "gltfModel",
+        path: "static/models/Blocks/Blokje 18.glb",
+    },
 ];
 
 async function fetchBlocks() {

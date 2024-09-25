@@ -19,7 +19,7 @@ export default class World {
         this.debug = this.experience.debug;
         this.worldStatus = "blocksCarousel";
 
-        this.currentPosition = 1;
+        this.currentPosition = 0;
         this.numberOfBlocks = blocksData.length;
 
         this.updateModulo();
@@ -57,6 +57,7 @@ export default class World {
         }
     }
 
+    // Update the modulo and the displayed number
     updateModulo() {
         this.modulo =
             this.currentPosition < 0
@@ -64,6 +65,11 @@ export default class World {
                       this.numberOfBlocks) %
                   this.numberOfBlocks
                 : this.currentPosition % this.numberOfBlocks;
+
+        // Update the displayed modulo number
+        document.getElementById("modulo-number").textContent = `#${
+            this.modulo + 1
+        }`;
     }
 
     increase() {

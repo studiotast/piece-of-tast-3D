@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="https://use.typekit.net/haq4djv.css" />
+  <link rel="stylesheet" href="https://use.typekit.net/qxf5lla.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Code structuring</title>
@@ -20,7 +20,7 @@
         <FontAwesomeIcon icon={faAngle90} />
       </div>
     </div>
-    <p>#nummer</p>
+    <p id="modulo-number">#11</p>
   </div>
   <div class='circle'></div>
   <img class="overlay" src="images/overlay.png" />
