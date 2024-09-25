@@ -15,6 +15,7 @@ export default class Block {
         this.numberOfBlocks = blocksData.length;
         this.resource = this.resources.items[data.name];
         this.angle = angle;
+        this.radius = 8;
 
         if (!this.resource) {
             console.error(`Geen resource gevonden voor model: ${data.name}`);
@@ -62,18 +63,14 @@ export default class Block {
     }
 
     setModelPosition() {
-        const radius = 8;
-        const x = Math.sin(this.angle) * radius;
-        const y = Math.cos(this.angle) * radius;
+        const x = Math.sin(this.angle) * this.radius;
+        const y = Math.cos(this.angle) * this.radius;
         this.model.position.set(x, y, 0);
     }
 
     placeInCarousel() {
-        const radius = 8;
-        const targetX = Math.sin(this.angle) * radius;
-        const targetY = Math.cos(this.angle) * radius;
-
-        // Lerp de huidige positie naar de target positie voor animatie
+        const targetX = Math.sin(this.angle) * this.radius;
+        const targetY = Math.cos(this.angle) * this.radius;
         this.AnimateModelPosition(targetX, targetY, 0);
     }
 
@@ -142,16 +139,16 @@ export default class Block {
         if (this.world.worldStatus === "blocksCarousel") {
             const targetScale = this.getTargetScaleForCarousel();
             this.animateModelScale(targetScale);
-            this.placeInCarousel(); // Roep de animatie voor de carousel aan
-        } else {
+            this.placeInCarousel();
+        } else if (this.world.worldStatus === "space") {
             const targetScale = this.world.modulo === this.index ? 1.5 : 0.75;
             this.animateModelScale(targetScale);
 
+            // If index is active place in center else place in space
             if (this.world.modulo === this.index) {
-                // Lerp positie naar (0, 0, 0) wanneer de blok de actieve is
                 this.AnimateModelPosition(0, 10, 0);
             } else {
-                this.placeInSpace(); // Roep de animatie voor ruimtepositie aan
+                this.placeInSpace();
             }
         }
     }
