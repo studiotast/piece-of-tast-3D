@@ -2,21 +2,21 @@ import * as THREE from "three";
 import Experience from "../Experience.js";
 import World from "./World.js";
 import blocksData from "./data/blocksData.js";
+
 export default class Block {
     constructor(data, index, group, angle) {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
         this.time = this.experience.time;
-        this.group = group; // Add the group reference
-
+        this.group = group;
         this.world = new World();
-
-        this.numberOfBlocks = blocksData.length;
         this.index = index;
-
-        // Selecteer de juiste resource op basis van de 'model' eigenschap
+        this.numberOfBlocks = blocksData.length;
         this.resource = this.resources.items[data.name];
+
+        // Sla de vorige wereldstatus op
+        this.previousWorldStatus = this.world.worldStatus;
 
         if (!this.resource) {
             console.error(`Geen resource gevonden voor model: ${data.name}`);
@@ -24,40 +24,54 @@ export default class Block {
         }
 
         this.setModel(data, angle);
+        this.setRandomRotationSpeed();
+        this.setRandomDirection();
+        this.setRandomSpacePosition();
+    }
 
-        // Willekeurige rotatiesnelheden instellen tussen 0.0001 en 0.00015
+    setRandomRotationSpeed() {
         this.rotationSpeedX = 0.0001 + Math.random() * (0.00015 - 0.0001);
         this.rotationSpeedY = 0.0001 + Math.random() * (0.00015 - 0.0001);
         this.rotationSpeedZ = 0.0001 + Math.random() * (0.00015 - 0.0001);
+    }
 
-        // Willekeurige richting instellen (1 of -1)
+    setRandomDirection() {
         this.directionX = Math.random() > 0.5 ? 1 : -1;
         this.directionY = Math.random() > 0.5 ? 1 : -1;
         this.directionZ = Math.random() > 0.5 ? 1 : -1;
     }
 
+    setRandomSpacePosition() {
+        this.randomX = (Math.random() - 0.5) * 40; // Range: -40 to 40
+        this.randomY = Math.random() * 40; // Range: -40 to 40
+        this.randomZ = Math.random() * -40; // Range: 0 to 40
+    }
+
+    placeInSpace() {
+        // Lerp de huidige positie naar de target ruimtepositie voor animatie
+        this.model.position.x = THREE.MathUtils.lerp(
+            this.model.position.x,
+            this.randomX,
+            0.1
+        );
+        this.model.position.y = THREE.MathUtils.lerp(
+            this.model.position.y,
+            this.randomY,
+            0.1
+        );
+        this.model.position.z = THREE.MathUtils.lerp(
+            this.model.position.z,
+            this.randomZ,
+            0.1
+        );
+    }
+
     setModel(data, angle) {
         this.model = this.resource.scene.clone();
         this.model.scale.set(1, 1, 1);
-
-        // Distance from center
-        const radius = 9.5;
-        const x = Math.sin(angle) * radius;
-        const y = Math.cos(angle) * radius;
-
-        this.model.position.x = x;
-        this.model.position.y = y;
-
-        this.model.lookAt(new THREE.Vector3(0, 0, 0)); // Look towards the center
-
-        // get it to a scale from -0.5 to 0.5 * amplifier
-        const randomRotation = (Math.random() - 0.5) * 2;
-        this.model.rotation.z = randomRotation;
-        this.model.rotation.x = randomRotation;
-
-        // Voeg het model toe aan de groep
+        this.setModelPosition(angle);
+        this.setModelRotation();
         this.group.add(this.model);
-
         this.model.traverse((child) => {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
@@ -65,8 +79,78 @@ export default class Block {
         });
     }
 
+    setModelPosition(angle) {
+        const radius = 9.5;
+        const x = Math.sin(angle) * radius;
+        const y = Math.cos(angle) * radius;
+        this.model.position.set(x, y, 0);
+        this.model.lookAt(new THREE.Vector3(0, 0, 0));
+    }
+
+    setModelRotation() {
+        const randomRotation = (Math.random() - 0.5) * 2;
+        this.model.rotation.set(randomRotation, 0, randomRotation);
+    }
+
+    placeInCarousel() {
+        const radius = 9.5;
+        const angle = (this.index / this.numberOfBlocks) * Math.PI * 2; // Verdeel blokken gelijkmatig in een cirkel
+        const targetX = Math.sin(angle) * radius;
+        const targetY = Math.cos(angle) * radius;
+
+        // Lerp de huidige positie naar de target positie voor animatie
+        this.model.position.x = THREE.MathUtils.lerp(
+            this.model.position.x,
+            targetX,
+            0.1
+        );
+        this.model.position.y = THREE.MathUtils.lerp(
+            this.model.position.y,
+            targetY,
+            0.1
+        );
+        this.model.position.z = THREE.MathUtils.lerp(
+            this.model.position.z,
+            0,
+            0.1
+        ); // Z blijft 0 voor de carousel
+
+        // Zorg dat het blok naar het centrum blijft kijken
+        this.model.lookAt(new THREE.Vector3(0, 0, 0));
+    }
+
+    getTargetScaleForCarousel() {
+        if (this.world.modulo === this.index) {
+            return 1.1;
+        } else if (
+            this.world.modulo === this.index + 1 ||
+            this.world.modulo === this.index - 1
+        ) {
+            return 0.8;
+        } else {
+            return 0.6;
+        }
+    }
+
+    lerpModelScale(targetScale, lerpFactor = 0.1) {
+        this.model.scale.x = THREE.MathUtils.lerp(
+            this.model.scale.x,
+            targetScale,
+            lerpFactor
+        );
+        this.model.scale.y = THREE.MathUtils.lerp(
+            this.model.scale.y,
+            targetScale,
+            lerpFactor
+        );
+        this.model.scale.z = THREE.MathUtils.lerp(
+            this.model.scale.z,
+            targetScale,
+            lerpFactor
+        );
+    }
+
     update() {
-        // Pas rotatie toe met richtingfactor
         this.model.rotation.y +=
             this.time.delta * this.rotationSpeedY * this.directionY;
         this.model.rotation.z +=
@@ -75,54 +159,33 @@ export default class Block {
             this.time.delta * this.rotationSpeedX * this.directionX;
 
         if (this.world.worldStatus === "blocksCarousel") {
-            let targetScale;
-            if (this.world.modulo === this.index) {
-                targetScale = 1.05; // active block
-            } else if (
-                this.world.modulo === this.index + 1 ||
-                this.world.modulo === this.index - 1
-            ) {
-                targetScale = 0.8; // nearby blocks
-            } else {
-                targetScale = 0.6; // farther away blocks
-            }
-            // Lerp the current scale to the target scale
-            this.model.scale.x = THREE.MathUtils.lerp(
-                this.model.scale.x,
-                targetScale,
-                0.1
-            );
-            this.model.scale.y = THREE.MathUtils.lerp(
-                this.model.scale.y,
-                targetScale,
-                0.1
-            );
-            this.model.scale.z = THREE.MathUtils.lerp(
-                this.model.scale.z,
-                targetScale,
-                0.1
-            );
+            const targetScale = this.getTargetScaleForCarousel();
+            this.lerpModelScale(targetScale);
+            this.placeInCarousel(); // Roep de animatie voor de carousel aan
         } else {
-            let targetScale = 0.75;
+            const targetScale = this.world.modulo === this.index ? 1.5 : 0.75;
+            this.lerpModelScale(targetScale);
+
             if (this.world.modulo === this.index) {
-                targetScale = 1.5; // active block
+                // Lerp positie naar (0, 0, 0) wanneer de blok de actieve is
+                this.model.position.x = THREE.MathUtils.lerp(
+                    this.model.position.x,
+                    0,
+                    0.1
+                );
+                this.model.position.y = THREE.MathUtils.lerp(
+                    this.model.position.y,
+                    12,
+                    0.1
+                );
+                this.model.position.z = THREE.MathUtils.lerp(
+                    this.model.position.z,
+                    0,
+                    0.1
+                );
+            } else {
+                this.placeInSpace(); // Roep de animatie voor ruimtepositie aan
             }
-            // Lerp the current scale to the target scale
-            this.model.scale.x = THREE.MathUtils.lerp(
-                this.model.scale.x,
-                targetScale,
-                0.1
-            );
-            this.model.scale.y = THREE.MathUtils.lerp(
-                this.model.scale.y,
-                targetScale,
-                0.1
-            );
-            this.model.scale.z = THREE.MathUtils.lerp(
-                this.model.scale.z,
-                targetScale,
-                0.1
-            );
         }
     }
 }

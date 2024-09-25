@@ -55,16 +55,25 @@ export default class BlocksGroup {
         if (this.blocksGroup) {
             this.updateAngle();
 
-            // Gebruik linear interpolation (lerp) om de rotatie soepel te animeren
-            this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
-                this.blocksGroup.rotation.z,
-                this.activeBlockAngle,
-                0.1 // Interpolatie snelheid (0.1 is een goede start, je kunt dit aanpassen)
-            );
+            if (this.world.worldStatus === "space") {
+                // Interpoleer naar rotatie 0 als de wereldstatus 'space' is
+                this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
+                    this.blocksGroup.rotation.z,
+                    0, // Doelrotatie naar 0
+                    0.1 // Interpolatiesnelheid
+                );
+            } else {
+                // Ga terug naar de normale actieve hoekrotatie wanneer niet in 'space'
+                this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
+                    this.blocksGroup.rotation.z,
+                    this.activeBlockAngle, // Terug naar de originele rotatie
+                    0.1 // Interpolatiesnelheid
+                );
+            }
 
-            // Update each block (now using the Block instances)
+            // Update elke blok (met de Block-instanties)
             this.blocks.forEach((block) => {
-                block.update(); // Call update on each Block instance
+                block.update(); // Roep update aan op elke Block-instantie
             });
         }
     }
