@@ -86,7 +86,7 @@ export default class Block {
         const x = Math.sin(this.angle) * radius;
         const y = Math.cos(this.angle) * radius;
         this.model.position.set(x, y, 0);
-        this.model.lookAt(new THREE.Vector3(0, 0, 0));
+        // this.model.lookAt(new THREE.Vector3(0, 0, 0));
     }
 
     setModelRotation() {
@@ -94,6 +94,9 @@ export default class Block {
     }
 
     placeInCarousel() {
+        // this.model.scale.set(1, 1, 1);
+        // this.setModelPosition();
+        // // this.setModelRotation();
         const radius = 9.5;
         const targetX = Math.sin(this.angle) * radius;
         const targetY = Math.cos(this.angle) * radius;
@@ -116,8 +119,8 @@ export default class Block {
         ); // Z blijft 0 voor de carousel
 
         // Zorg dat het blok naar het centrum blijft kijken
-        this.model.lookAt(new THREE.Vector3(0, 0, 0));
-        this.setModelRotation();
+        // this.model.lookAt(new THREE.Vector3(0, 0, 0));
+        // this.setModelRotation();
     }
 
     getTargetScaleForCarousel() {
