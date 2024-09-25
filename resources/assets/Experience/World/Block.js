@@ -82,7 +82,7 @@ export default class Block {
     }
 
     setModelPosition() {
-        const radius = 9.5;
+        const radius = 8;
         const x = Math.sin(this.angle) * radius;
         const y = Math.cos(this.angle) * radius;
         this.model.position.set(x, y, 0);
@@ -97,7 +97,7 @@ export default class Block {
         // this.model.scale.set(1, 1, 1);
         // this.setModelPosition();
         // // this.setModelRotation();
-        const radius = 9.5;
+        const radius = 8;
         const targetX = Math.sin(this.angle) * radius;
         const targetY = Math.cos(this.angle) * radius;
 
@@ -130,9 +130,14 @@ export default class Block {
             this.world.modulo === this.index + 1 ||
             this.world.modulo === this.index - 1
         ) {
-            return 0.8;
-        } else {
+            return 0.7;
+        } else if (
+            this.world.modulo === this.index + 2 ||
+            this.world.modulo === this.index - 2
+        ) {
             return 0.6;
+        } else {
+            return 0.5;
         }
     }
 
@@ -179,7 +184,7 @@ export default class Block {
                 );
                 this.model.position.y = THREE.MathUtils.lerp(
                     this.model.position.y,
-                    12,
+                    10,
                     0.1
                 );
                 this.model.position.z = THREE.MathUtils.lerp(

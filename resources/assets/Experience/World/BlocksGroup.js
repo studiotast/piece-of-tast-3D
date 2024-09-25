@@ -41,7 +41,7 @@ export default class BlocksGroup {
                 this.blocks.push(block); // Store Block instance in the array
             });
         });
-        this.blocksGroup.position.y = -12;
+        this.blocksGroup.position.y = -7.5;
         this.scene.add(this.blocksGroup);
     }
 
