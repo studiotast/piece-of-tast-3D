@@ -15,6 +15,7 @@ export default class Block {
         this.numberOfBlocks = blocksData.length;
         this.resource = this.resources.items[data.name];
         this.angle = angle;
+        this.randomRotation = (Math.random() - 0.5) * 2;
 
         // Sla de vorige wereldstatus op
         this.previousWorldStatus = this.world.worldStatus;
@@ -70,7 +71,7 @@ export default class Block {
     setModel(data) {
         this.model = this.resource.scene.clone();
         this.model.scale.set(1, 1, 1);
-        this.setModelPosition(this.angle);
+        this.setModelPosition();
         this.setModelRotation();
         this.group.add(this.model);
         this.model.traverse((child) => {
@@ -89,8 +90,7 @@ export default class Block {
     }
 
     setModelRotation() {
-        const randomRotation = (Math.random() - 0.5) * 2;
-        this.model.rotation.set(randomRotation, 0, randomRotation);
+        this.model.rotation.set(this.randomRotation, 0, this.randomRotation);
     }
 
     placeInCarousel() {
@@ -117,6 +117,7 @@ export default class Block {
 
         // Zorg dat het blok naar het centrum blijft kijken
         this.model.lookAt(new THREE.Vector3(0, 0, 0));
+        this.setModelRotation();
     }
 
     getTargetScaleForCarousel() {
