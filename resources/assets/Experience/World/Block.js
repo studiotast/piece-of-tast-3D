@@ -16,8 +16,6 @@ export default class Block {
         this.resource = this.resources.items[data.name];
         this.angle = angle;
         this.randomRotation = (Math.random() - 0.5) * 2;
-
-        // Sla de vorige wereldstatus op
         this.previousWorldStatus = this.world.worldStatus;
 
         if (!this.resource) {
@@ -25,7 +23,11 @@ export default class Block {
             return;
         }
 
-        this.setModel(data);
+        this.setModel();
+        this.setInitialValues();
+    }
+
+    setInitialValues() {
         this.setRandomRotationSpeed();
         this.setRandomDirection();
         this.setRandomSpacePosition();
@@ -51,34 +53,15 @@ export default class Block {
 
     placeInSpace() {
         // Lerp de huidige positie naar de target ruimtepositie voor animatie
-        this.model.position.x = THREE.MathUtils.lerp(
-            this.model.position.x,
-            this.randomX,
-            0.1
-        );
-        this.model.position.y = THREE.MathUtils.lerp(
-            this.model.position.y,
-            this.randomY,
-            0.1
-        );
-        this.model.position.z = THREE.MathUtils.lerp(
-            this.model.position.z,
-            this.randomZ,
-            0.1
-        );
+        this.AnimateModelPosition(this.randomX, this.randomY, this.randomZ);
     }
 
-    setModel(data) {
+    setModel() {
         this.model = this.resource.scene.clone();
         this.model.scale.set(1, 1, 1);
         this.setModelPosition();
         this.setModelRotation();
         this.group.add(this.model);
-        // this.model.traverse((child) => {
-        //     if (child instanceof THREE.Mesh) {
-        //         child.castShadow = true;
-        //     }
-        // });
     }
 
     setModelPosition() {
@@ -86,7 +69,6 @@ export default class Block {
         const x = Math.sin(this.angle) * radius;
         const y = Math.cos(this.angle) * radius;
         this.model.position.set(x, y, 0);
-        // this.model.lookAt(new THREE.Vector3(0, 0, 0));
     }
 
     setModelRotation() {
@@ -94,33 +76,12 @@ export default class Block {
     }
 
     placeInCarousel() {
-        // this.model.scale.set(1, 1, 1);
-        // this.setModelPosition();
-        // // this.setModelRotation();
         const radius = 8;
         const targetX = Math.sin(this.angle) * radius;
         const targetY = Math.cos(this.angle) * radius;
 
         // Lerp de huidige positie naar de target positie voor animatie
-        this.model.position.x = THREE.MathUtils.lerp(
-            this.model.position.x,
-            targetX,
-            0.1
-        );
-        this.model.position.y = THREE.MathUtils.lerp(
-            this.model.position.y,
-            targetY,
-            0.1
-        );
-        this.model.position.z = THREE.MathUtils.lerp(
-            this.model.position.z,
-            0,
-            0.1
-        ); // Z blijft 0 voor de carousel
-
-        // Zorg dat het blok naar het centrum blijft kijken
-        // this.model.lookAt(new THREE.Vector3(0, 0, 0));
-        // this.setModelRotation();
+        this.AnimateModelPosition(targetX, targetY, 0);
     }
 
     getTargetScaleForCarousel() {
@@ -141,7 +102,7 @@ export default class Block {
         }
     }
 
-    lerpModelScale(targetScale, lerpFactor = 0.1) {
+    animateModelScale(targetScale, lerpFactor = 0.1) {
         this.model.scale.x = THREE.MathUtils.lerp(
             this.model.scale.x,
             targetScale,
@@ -159,6 +120,24 @@ export default class Block {
         );
     }
 
+    AnimateModelPosition(targetX, targetY, targetZ) {
+        this.model.position.x = THREE.MathUtils.lerp(
+            this.model.position.x,
+            targetX,
+            0.1
+        );
+        this.model.position.y = THREE.MathUtils.lerp(
+            this.model.position.y,
+            targetY,
+            0.1
+        );
+        this.model.position.z = THREE.MathUtils.lerp(
+            this.model.position.z,
+            targetZ,
+            0.1
+        );
+    }
+
     update() {
         this.model.rotation.y +=
             this.time.delta * this.rotationSpeedY * this.directionY;
@@ -169,29 +148,15 @@ export default class Block {
 
         if (this.world.worldStatus === "blocksCarousel") {
             const targetScale = this.getTargetScaleForCarousel();
-            this.lerpModelScale(targetScale);
+            this.animateModelScale(targetScale);
             this.placeInCarousel(); // Roep de animatie voor de carousel aan
         } else {
             const targetScale = this.world.modulo === this.index ? 1.5 : 0.75;
-            this.lerpModelScale(targetScale);
+            this.animateModelScale(targetScale);
 
             if (this.world.modulo === this.index) {
                 // Lerp positie naar (0, 0, 0) wanneer de blok de actieve is
-                this.model.position.x = THREE.MathUtils.lerp(
-                    this.model.position.x,
-                    0,
-                    0.1
-                );
-                this.model.position.y = THREE.MathUtils.lerp(
-                    this.model.position.y,
-                    10,
-                    0.1
-                );
-                this.model.position.z = THREE.MathUtils.lerp(
-                    this.model.position.z,
-                    0,
-                    0.1
-                );
+                this.AnimateModelPosition(0, 10, 0);
             } else {
                 this.placeInSpace(); // Roep de animatie voor ruimtepositie aan
             }
