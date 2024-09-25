@@ -69,23 +69,19 @@ export default class Block {
     }
 
     placeInCarousel() {
+        console.log("place in carousel");
         const targetX = Math.sin(this.angle) * this.radius;
         const targetY = Math.cos(this.angle) * this.radius;
         this.AnimateModelPosition(targetX, targetY, 0);
     }
 
     getTargetScaleForCarousel() {
-        if (this.world.modulo === this.index) {
+        const diff = Math.abs(this.world.modulo - this.index);
+        if (diff === 0) {
             return 1.1;
-        } else if (
-            this.world.modulo === this.index + 1 ||
-            this.world.modulo === this.index - 1
-        ) {
+        } else if (diff === 1) {
             return 0.7;
-        } else if (
-            this.world.modulo === this.index + 2 ||
-            this.world.modulo === this.index - 2
-        ) {
+        } else if (diff === 2) {
             return 0.6;
         } else {
             return 0.5;
