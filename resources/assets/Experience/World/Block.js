@@ -75,21 +75,54 @@ export default class Block {
             this.time.delta * this.rotationSpeedX * this.directionX;
 
         if (this.world.worldStatus === "blocksCarousel") {
+            let targetScale;
             if (this.world.modulo === this.index) {
-                this.model.scale.set(1.05, 1.05, 1.05); // active block
+                targetScale = 1.05; // active block
             } else if (
                 this.world.modulo === this.index + 1 ||
                 this.world.modulo === this.index - 1
             ) {
-                this.model.scale.set(0.8, 0.8, 0.8); // nearby blocks
+                targetScale = 0.8; // nearby blocks
             } else {
-                this.model.scale.set(0.6, 0.6, 0.6); // farther away blocks
+                targetScale = 0.6; // farther away blocks
             }
+            // Lerp the current scale to the target scale
+            this.model.scale.x = THREE.MathUtils.lerp(
+                this.model.scale.x,
+                targetScale,
+                0.1
+            );
+            this.model.scale.y = THREE.MathUtils.lerp(
+                this.model.scale.y,
+                targetScale,
+                0.1
+            );
+            this.model.scale.z = THREE.MathUtils.lerp(
+                this.model.scale.z,
+                targetScale,
+                0.1
+            );
         } else {
-            this.model.scale.set(0.75, 0.75, 0.75);
+            let targetScale = 0.75;
             if (this.world.modulo === this.index) {
-                this.model.scale.set(1.25, 1.25, 1.25); // active block
+                targetScale = 1.5; // active block
             }
+            // Lerp the current scale to the target scale
+            this.model.scale.x = THREE.MathUtils.lerp(
+                this.model.scale.x,
+                targetScale,
+                0.1
+            );
+            this.model.scale.y = THREE.MathUtils.lerp(
+                this.model.scale.y,
+                targetScale,
+                0.1
+            );
+            this.model.scale.z = THREE.MathUtils.lerp(
+                this.model.scale.z,
+                targetScale,
+                0.1
+            );
         }
     }
 }

@@ -17,7 +17,7 @@ export default class World {
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
         this.debug = this.experience.debug;
-        this.wordStatus = "blocksCarousel";
+        this.worldStatus = "blocksCarousel";
 
         this.currentPosition = 1;
         this.numberOfBlocks = blocksData.length;
@@ -77,12 +77,12 @@ export default class World {
         this.updateModulo();
     }
     switchWorldStatus() {
-        if (this.wordStatus === "blocksCarousel") {
-            this.wordStatus = "space";
-            console.log(this.wordStatus, "ik ben opgepakt", this.modulo);
-        } else if (this.wordStatus === "space") {
-            this.wordStatus = "blocksCarousel";
-            console.log(this.wordStatus, "ik ben neergelegd", this.modulo);
+        if (this.worldStatus === "blocksCarousel") {
+            this.worldStatus = "space";
+            console.log(this.worldStatus, "ik ben opgepakt", this.modulo);
+        } else if (this.worldStatus === "space") {
+            this.worldStatus = "blocksCarousel";
+            console.log(this.worldStatus, "ik ben neergelegd", this.modulo);
         }
     }
 }
