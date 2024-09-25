@@ -45,8 +45,8 @@ export default class Block {
 
     setRandomSpacePosition() {
         this.randomX = (Math.random() - 0.5) * 40; // Range: -40 to 40
-        this.randomY = Math.random() * 40; // Range: -40 to 40
-        this.randomZ = Math.random() * -40; // Range: 0 to 40
+        this.randomY = -5 + Math.random() * (25 - -5); // Range: -5 to 25
+        this.randomZ = -20 + Math.random() * (-40 - -20); // Range: -20 to -40
     }
 
     placeInSpace() {
