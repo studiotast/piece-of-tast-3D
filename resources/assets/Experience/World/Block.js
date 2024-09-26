@@ -17,6 +17,7 @@ export default class Block {
         this.initialAngle = initialAngle;
         this.radius = 8;
         this.oneStep = (Math.PI * 2) / this.numberOfBlocks;
+        this.previousWorldStatus = this.world.worldStatus;
 
         if (!this.resource) {
             console.error(`Geen resource gevonden voor model: ${data.name}`);
@@ -30,7 +31,7 @@ export default class Block {
     setInitialValues() {
         this.setRandomRotationSpeed();
         this.setRandomDirection();
-        this.setRandomSpacePosition();
+        this.setRandomSpacePositions();
     }
 
     setRandomRotationSpeed() {
@@ -45,7 +46,7 @@ export default class Block {
         this.directionZ = Math.random() > 0.5 ? 1 : -1;
     }
 
-    setRandomSpacePosition() {
+    setRandomSpacePositions() {
         this.randomX = (Math.random() - 0.5) * 40; // Range: -40 to 40
         this.randomY = -5 + Math.random() * (25 - -5); // Range: -5 to 25
         this.randomZ = -20 + Math.random() * (-40 - -20); // Range: -20 to -40
@@ -59,17 +60,8 @@ export default class Block {
     setModel() {
         this.model = this.resource.scene.clone();
         this.model.scale.set(1, 1, 1);
-        this.setModelPosition();
+        this.placeInCarousel();
         this.group.add(this.model);
-    }
-
-    setModelPosition() {
-        // Bereken de nieuwe hoek door de huidige hoek (initialAngle) te updaten met het aantal stappen
-        const newAngle =
-            this.initialAngle - this.world.currentPosition * this.oneStep;
-        const x = Math.sin(newAngle) * this.radius;
-        const y = Math.cos(newAngle) * this.radius;
-        this.model.position.set(x, y, 0);
     }
 
     placeInCarousel() {
@@ -82,15 +74,21 @@ export default class Block {
     }
 
     getTargetScaleForCarousel() {
-        const diff = Math.abs(this.world.modulo - this.index);
+        // Bereken het cyclische verschil tussen het huidige blok (this.index) en de actieve (modulo)
+        const diff = Math.min(
+            Math.abs(this.world.modulo - this.index),
+            this.numberOfBlocks - Math.abs(this.world.modulo - this.index)
+        );
+
+        // Pas de schaal aan op basis van de cyclische afstand
         if (diff === 0) {
-            return 1.1;
+            return 1.1; // Actief blok
         } else if (diff === 1) {
-            return 0.7;
+            return 0.7; // Naburig blok (voor/achter)
         } else if (diff === 2) {
-            return 0.6;
+            return 0.6; // Tweede blok voor/achter
         } else {
-            return 0.5;
+            return 0.5; // Alle andere blokken
         }
     }
 
@@ -130,6 +128,14 @@ export default class Block {
         );
     }
 
+    // Nieuwe methode om te checken of de wereldstatus is veranderd
+    checkWorldStatusChange() {
+        if (this.previousWorldStatus !== this.world.worldStatus) {
+            this.setRandomSpacePositions();
+            this.previousWorldStatus = this.world.worldStatus; // Update de vorige status
+        }
+    }
+
     update() {
         this.model.rotation.y +=
             this.time.delta * this.rotationSpeedY * this.directionY;
@@ -138,6 +144,7 @@ export default class Block {
         this.model.rotation.x +=
             this.time.delta * this.rotationSpeedX * this.directionX;
 
+        this.checkWorldStatusChange();
         if (this.world.worldStatus === "blocksCarousel") {
             const targetScale = this.getTargetScaleForCarousel();
             this.animateModelScale(targetScale);
