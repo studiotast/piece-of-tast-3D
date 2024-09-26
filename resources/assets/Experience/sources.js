@@ -68,6 +68,7 @@ async function fetchBlocks() {
             const object = {
                 name: block.name,
                 number: block.number,
+                client_text: block.client_text,
                 type: "gltfModel",
                 path: `https://stukje.tast.studio/storage/${block["3D_model"]}`,
             };

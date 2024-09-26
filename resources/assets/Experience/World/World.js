@@ -158,7 +158,7 @@ export default class World {
         }, 10000); // Pas deze waarde aan om de zichtbaarheid te regelen (hier 2 seconden)
     }
 
-    showTextBlockText(element) {
+    showTextBlockText() {
         this.blockTextElement.classList.add("visible");
     }
 

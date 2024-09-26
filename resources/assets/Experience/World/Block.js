@@ -46,6 +46,16 @@ export default class Block {
         this.rotationSpeedZ = 0.0001 + Math.random() * (0.00015 - 0.0001);
     }
 
+    setBlockText() {
+        const block = blocksData[this.world.modulo];
+
+        this.world.blockTextElement.textContent = `${
+            block.client_text === null
+                ? "Dit blokje is nog niet uitgegeven"
+                : block.client_text
+        }`;
+    }
+
     setRandomDirection() {
         this.directionX = Math.random() > 0.5 ? 1 : -1;
         this.directionY = Math.random() > 0.5 ? 1 : -1;
@@ -155,6 +165,7 @@ export default class Block {
             // If index is active place in center else place in space
             if (this.world.modulo === this.index) {
                 this.AnimateModelPosition(0, 10, 0);
+                this.setBlockText();
             } else {
                 this.placeInSpace();
             }
