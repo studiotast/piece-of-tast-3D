@@ -133,3 +133,30 @@ p {
 .bottom i {
     font-size: 32px;
 }
+
+.tast-logo {
+    position: fixed;
+    left: 50px;
+    top: 50px;
+}
+
+#text {
+    position: fixed;
+    top: 120px;
+    left: 50px;
+    color: var(--white);
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 200;
+    width: 100%;
+    max-width: 376px;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    span {
+        font-weight: 500;
+    }
+}
+
+#text.visible {
+    opacity: 1;
+}

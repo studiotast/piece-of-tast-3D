@@ -27,6 +27,11 @@ export default class World {
         this.overlay.style.display = "none";
         this.setupIconClickListeners();
 
+        // Text variables
+        this.rotationTimeout = null;
+        this.idleTime = 3000; // 3 seconds of no rotation
+        this.textElement = document.getElementById("text");
+
         // Debug
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder("blocksGroup");
@@ -96,20 +101,52 @@ export default class World {
         }`;
     }
 
+    /*
+     * Text functions
+     */
+    handleText() {
+        // Clear any previous timeout to prevent the fade-in
+        clearTimeout(this.rotationTimeout);
+
+        // Hide the text when rotating
+        this.hideText();
+
+        // Set a new timeout to show the text only if worldStatus is still 'blocksCarousel'
+        this.rotationTimeout = setTimeout(() => {
+            if (this.worldStatus === "blocksCarousel") {
+                this.showText();
+            } else {
+                this.hideText(); // Ensure the text stays hidden if worldStatus changes
+            }
+        }, this.idleTime);
+    }
+
     increase() {
         this.currentPosition = this.currentPosition + 1;
         this.updateModulo();
+        this.handleText();
     }
     decrease() {
         this.currentPosition = this.currentPosition - 1;
         this.updateModulo();
+        this.handleText();
     }
     switchWorldStatus() {
         if (this.worldStatus === "blocksCarousel") {
             this.worldStatus = "space";
+            this.hideText(); // Verberg de tekst meteen als de wereld naar 'space' gaat
         } else if (this.worldStatus === "space") {
             this.worldStatus = "blocksCarousel";
+            this.handleText();
         }
+    }
+
+    showText() {
+        this.textElement.classList.add("visible");
+    }
+
+    hideText() {
+        this.textElement.classList.remove("visible");
     }
 
     update() {
