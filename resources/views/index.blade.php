@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="https://use.typekit.net/qxf5lla.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Code structuring</title>
+  <title>Stukje tast fysiek</title>
   @vite('resources/assets/style.css')
 </head>
 
