@@ -31,6 +31,8 @@ export default class World {
         this.rotationTimeout = null;
         this.idleTime = 3000; // 3 seconds of no rotation
         this.textElement = document.getElementById("text");
+        this.blockTextElement = document.getElementById("block-text");
+        this.circleElement = document.getElementById("circle");
 
         // Debug
         if (this.debug.active) {
@@ -57,11 +59,13 @@ export default class World {
                         this.overlay.style.display = "block";
                     }
                 },
+                blockShaked: () => this.blockShaked(),
                 switchWorldStatus: () => this.switchWorldStatus(),
             };
             this.debugFolder.add(debugObject, "increase");
             this.debugFolder.add(debugObject, "decrease");
             this.debugFolder.add(debugObject, "toggleOverlay");
+            this.debugFolder.add(debugObject, "blockShaked");
             this.debugFolder.add(debugObject, "switchWorldStatus");
         }
     }
@@ -101,9 +105,6 @@ export default class World {
         }`;
     }
 
-    /*
-     * Text functions
-     */
     handleText() {
         // Clear any previous timeout to prevent the fade-in
         clearTimeout(this.rotationTimeout);
@@ -131,18 +132,38 @@ export default class World {
         this.updateModulo();
         this.handleText();
     }
-    switchWorldStatus() {
-        const circleElement = document.getElementById("circle");
 
+    switchWorldStatus() {
         if (this.worldStatus === "blocksCarousel") {
             this.worldStatus = "space";
             this.hideText(); // Verberg de tekst meteen als de wereld naar 'space' gaat
-            circleElement.classList.add("active"); // Voeg de 'active' class toe aan circle
+            this.circleElement.classList.add("active"); // Voeg de 'active' class toe aan circle
         } else if (this.worldStatus === "space") {
             this.worldStatus = "blocksCarousel";
             this.handleText();
-            circleElement.classList.remove("active"); // Verwijder de 'active' class van circle
+            this.circleElement.classList.remove("active"); // Verwijder de 'active' class van circle
+            this.circleElement.classList.remove("hidden");
+            this.blockTextElement.classList.remove("visible");
         }
+    }
+
+    blockShaked() {
+        this.showTextBlockText(); // Toon de tekst
+        this.circleElement.classList.add("hidden");
+        this.circleElement.classList.remove("active"); // Verwijder de 'active' class van circle
+        setTimeout(() => {
+            this.hideTextBlockText(); // Verberg de tekst na een korte tijd
+            this.circleElement.classList.add("active"); // Voeg de 'active' class toe aan circle
+            this.circleElement.classList.remove("hidden");
+        }, 10000); // Pas deze waarde aan om de zichtbaarheid te regelen (hier 2 seconden)
+    }
+
+    showTextBlockText(element) {
+        this.blockTextElement.classList.add("visible");
+    }
+
+    hideTextBlockText() {
+        this.blockTextElement.classList.remove("visible");
     }
 
     showText() {

@@ -39,6 +39,10 @@
     <div id='circle'>
       <i class="fa-solid fa-thought-bubble"></i>
     </div>
+    <div id='block-text'>
+      <p>Dit blokje is nog niet uitgegeven.</p>
+    </div>
+
     <div id='overlay'>
       <div class='half-circle'></div>
       <img class="frame" src="images/overlay.png" />
