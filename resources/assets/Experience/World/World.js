@@ -1,7 +1,7 @@
 import Experience from "../Experience.js";
 import Environment from "./Environment.js";
 import BlocksGroup from "./BlocksGroup.js"; // Import the new Blocks class
-import blocksData from "./data/blocksData.js";
+import { blocksData } from "../sources.js";
 
 let instance = null;
 export default class World {
@@ -67,8 +67,8 @@ export default class World {
                 : this.currentPosition % this.numberOfBlocks;
 
         // Update the displayed modulo number
-        document.getElementById("modulo-number").textContent = `#${
-            this.modulo + 1
+        document.getElementById("block-number").textContent = `#${
+            blocksData[this.modulo].number
         }`;
     }
 

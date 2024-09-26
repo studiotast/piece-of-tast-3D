@@ -20,7 +20,7 @@
         <FontAwesomeIcon icon={faAngle90} />
       </div>
     </div>
-    <p id="modulo-number">#11</p>
+    <p id="block-number">#11</p>
   </div>
   <div class='circle'></div>
   <img class="overlay" src="images/overlay.png" />

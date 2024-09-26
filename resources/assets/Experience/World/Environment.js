@@ -72,8 +72,8 @@ export default class Environment {
                 .min(-5)
                 .max(5)
                 .step(0.001);
+            this.debugFolder.close();
         }
-        this.debugFolder.close();
     }
 
     setOfficeEnvMap() {

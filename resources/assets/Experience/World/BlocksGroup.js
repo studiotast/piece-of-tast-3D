@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Block from "./Block.js";
-import blocksData from "./data/blocksData.js";
+import { blocksData } from "../sources.js";
 import Experience from "../Experience.js";
 import World from "./World.js";
 
@@ -15,8 +15,6 @@ export default class BlocksGroup {
         this.currentPosition = this.world.currentPosition;
         this.blocks = []; // Array to hold Block instances
 
-        // this.updateAngle();
-
         this.setModel();
     }
 
@@ -27,6 +25,7 @@ export default class BlocksGroup {
         // Wait for resources
         this.resources.on("ready", () => {
             // Setup blocks
+
             blocksData.forEach((blockData, index) => {
                 const initialAngle =
                     ((Math.PI * 2) / blocksData.length) * index;
@@ -43,32 +42,8 @@ export default class BlocksGroup {
         this.scene.add(this.blocksGroup);
     }
 
-    // updateAngle() {
-    //     // Inverteer de positie
-    //     this.activeBlockAngle =
-    //         ((Math.PI * 2) / this.numberOfBlocks) * this.world.currentPosition;
-    // }
-
     update() {
         if (this.blocksGroup) {
-            // this.updateAngle();
-
-            // if (this.world.worldStatus === "space") {
-            //     // Interpoleer naar rotatie 0 als de wereldstatus 'space' is
-            //     this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
-            //         this.blocksGroup.rotation.z,
-            //         0, // Doelrotatie naar 0
-            //         0.1 // Interpolatiesnelheid
-            //     );
-            // } else {
-            //     // Ga terug naar de normale actieve hoekrotatie wanneer niet in 'space'
-            //     this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
-            //         this.blocksGroup.rotation.z,
-            //         this.activeBlockAngle, // Terug naar de originele rotatie
-            //         0.1 // Interpolatiesnelheid
-            //     );
-            // }
-
             // Update elke blok (met de Block-instanties)
             this.blocks.forEach((block) => {
                 block.update(); // Roep update aan op elke Block-instantie

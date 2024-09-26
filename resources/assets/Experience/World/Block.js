@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import Experience from "../Experience.js";
 import World from "./World.js";
-import blocksData from "./data/blocksData.js";
+import { blocksData } from "../sources.js";
 
 export default class Block {
     constructor(data, index, group, initialAngle) {
