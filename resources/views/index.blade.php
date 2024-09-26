@@ -14,14 +14,14 @@
   <canvas class="webgl"></canvas>
   <div class='bottom'>
     <div class='left'>
-      <div>
+      <div id='home-icon'>
         <i class="fa-solid fa-home"></i>
       </div>
-      <div>
+      <div id='angle-icon'>
         <i class="fa-solid fa-angle-90"></i>
       </div>
     </div>
-    <p id="block-number">#11</p>
+    <p id="block-number">#--</p>
   </div>
   <div id='overlay'>
     <div class='circle'></div>

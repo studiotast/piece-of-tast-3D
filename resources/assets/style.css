@@ -81,7 +81,9 @@ p {
     left: 0;
     outline: none;
 }
-
+.overlay {
+    display: none;
+}
 .frame {
     position: fixed;
     top: 0;

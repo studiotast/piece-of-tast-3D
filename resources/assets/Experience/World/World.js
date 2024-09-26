@@ -25,6 +25,7 @@ export default class World {
         this.updateModulo();
         this.overlay = document.getElementById("overlay");
         this.overlay.style.display = "none";
+        this.setupIconClickListeners();
 
         // Debug
         if (this.debug.active) {
@@ -44,7 +45,6 @@ export default class World {
             const debugObject = {
                 increase: () => this.increase(),
                 decrease: () => this.decrease(),
-                switchWorldStatus: () => this.switchWorldStatus(),
                 toggleOverlay: () => {
                     if (this.overlay.style.display === "block") {
                         this.overlay.style.display = "none";
@@ -52,19 +52,33 @@ export default class World {
                         this.overlay.style.display = "block";
                     }
                 },
+                switchWorldStatus: () => this.switchWorldStatus(),
             };
             this.debugFolder.add(debugObject, "increase");
             this.debugFolder.add(debugObject, "decrease");
-            this.debugFolder.add(debugObject, "switchWorldStatus");
             this.debugFolder.add(debugObject, "toggleOverlay");
+            this.debugFolder.add(debugObject, "switchWorldStatus");
         }
     }
 
-    update() {
-        // Update blocks
-        if (this.blocksGroup) {
-            this.blocksGroup.update();
-        }
+    setupIconClickListeners() {
+        // Home icon click listener
+        const homeIcon = document.getElementById("home-icon");
+        homeIcon.addEventListener("click", () => {
+            // Refresh page
+            location.reload();
+
+            // // Reset all states
+            // this.worldStatus = "blocksCarousel";
+            // this.currentPosition = 0;
+            // this.updateModulo();
+        });
+
+        // Angle icon click listener
+        const angleIcon = document.getElementById("angle-icon");
+        angleIcon.addEventListener("click", () => {
+            console.log("Angle icon clicked");
+        });
     }
 
     // Update the modulo and the displayed number
@@ -95,6 +109,13 @@ export default class World {
             this.worldStatus = "space";
         } else if (this.worldStatus === "space") {
             this.worldStatus = "blocksCarousel";
+        }
+    }
+
+    update() {
+        // Update blocks
+        if (this.blocksGroup) {
+            this.blocksGroup.update();
         }
     }
 }
