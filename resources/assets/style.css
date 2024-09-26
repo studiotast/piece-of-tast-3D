@@ -94,19 +94,19 @@ p {
 
 .bottom {
     position: fixed;
-    height: 106px;
+    height: 92px;
     width: 100%;
     bottom: 0;
     background-color: var(--white);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 28px;
+    padding: 10px 30px;
 }
 .bottom .left {
     align-items: center;
     display: flex;
-    gap: 60px;
+    gap: 66px;
 }
 .bottom svg {
     font-size: 25px;
@@ -123,8 +123,8 @@ p {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    height: 250px;
-    width: 800px;
+    height: 230px;
+    width: 60vw;
     background-color: var(--pale-grey);
     border-top-left-radius: 999px;
     border-top-right-radius: 999px;
