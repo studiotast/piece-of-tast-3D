@@ -24,8 +24,14 @@ export default class Block {
             return;
         }
 
-        this.setModel();
+        this.createModel();
         this.setInitialValues();
+    }
+
+    createModel() {
+        this.model = this.resource.scene.clone();
+        this.model.scale.set(1, 1, 1);
+        this.group.add(this.model);
     }
 
     setInitialValues() {
@@ -47,21 +53,14 @@ export default class Block {
     }
 
     setRandomSpacePositions() {
-        this.randomX = (Math.random() - 0.5) * 40; // Range: -40 to 40
-        this.randomY = -5 + Math.random() * (25 - -5); // Range: -5 to 25
+        this.randomX = (Math.random() - 0.5) * 38; // Range: -38 to 38
+        this.randomY = -5 + Math.random() * 26; // Range: 0 to 25
         this.randomZ = -20 + Math.random() * (-40 - -20); // Range: -20 to -40
     }
 
     placeInSpace() {
         // Lerp de huidige positie naar de target ruimtepositie voor animatie
         this.AnimateModelPosition(this.randomX, this.randomY, this.randomZ);
-    }
-
-    setModel() {
-        this.model = this.resource.scene.clone();
-        this.model.scale.set(1, 1, 1);
-        this.placeInCarousel();
-        this.group.add(this.model);
     }
 
     placeInCarousel() {
