@@ -15,10 +15,7 @@ export default class BlocksGroup {
         this.currentPosition = this.world.currentPosition;
         this.blocks = []; // Array to hold Block instances
 
-        this.numberOfBlocks = blocksData.length;
-        this.oneStep = (Math.PI * 2) / this.numberOfBlocks;
-
-        this.updateAngle();
+        // this.updateAngle();
 
         this.setModel();
     }
@@ -31,12 +28,13 @@ export default class BlocksGroup {
         this.resources.on("ready", () => {
             // Setup blocks
             blocksData.forEach((blockData, index) => {
-                const angle = ((Math.PI * 2) / blocksData.length) * index;
+                const initialAngle =
+                    ((Math.PI * 2) / blocksData.length) * index;
                 const block = new Block(
                     blockData,
                     index,
                     this.blocksGroup,
-                    angle
+                    initialAngle
                 ); // Create Block instance
                 this.blocks.push(block); // Store Block instance in the array
             });
@@ -45,31 +43,31 @@ export default class BlocksGroup {
         this.scene.add(this.blocksGroup);
     }
 
-    updateAngle() {
-        // Inverteer de positie
-        this.activeBlockAngle =
-            ((Math.PI * 2) / this.numberOfBlocks) * this.world.currentPosition;
-    }
+    // updateAngle() {
+    //     // Inverteer de positie
+    //     this.activeBlockAngle =
+    //         ((Math.PI * 2) / this.numberOfBlocks) * this.world.currentPosition;
+    // }
 
     update() {
         if (this.blocksGroup) {
-            this.updateAngle();
+            // this.updateAngle();
 
-            if (this.world.worldStatus === "space") {
-                // Interpoleer naar rotatie 0 als de wereldstatus 'space' is
-                this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
-                    this.blocksGroup.rotation.z,
-                    0, // Doelrotatie naar 0
-                    0.1 // Interpolatiesnelheid
-                );
-            } else {
-                // Ga terug naar de normale actieve hoekrotatie wanneer niet in 'space'
-                this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
-                    this.blocksGroup.rotation.z,
-                    this.activeBlockAngle, // Terug naar de originele rotatie
-                    0.1 // Interpolatiesnelheid
-                );
-            }
+            // if (this.world.worldStatus === "space") {
+            //     // Interpoleer naar rotatie 0 als de wereldstatus 'space' is
+            //     this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
+            //         this.blocksGroup.rotation.z,
+            //         0, // Doelrotatie naar 0
+            //         0.1 // Interpolatiesnelheid
+            //     );
+            // } else {
+            //     // Ga terug naar de normale actieve hoekrotatie wanneer niet in 'space'
+            //     this.blocksGroup.rotation.z = THREE.MathUtils.lerp(
+            //         this.blocksGroup.rotation.z,
+            //         this.activeBlockAngle, // Terug naar de originele rotatie
+            //         0.1 // Interpolatiesnelheid
+            //     );
+            // }
 
             // Update elke blok (met de Block-instanties)
             this.blocks.forEach((block) => {

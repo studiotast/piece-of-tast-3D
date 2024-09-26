@@ -4,7 +4,7 @@ import World from "./World.js";
 import blocksData from "./data/blocksData.js";
 
 export default class Block {
-    constructor(data, index, group, angle) {
+    constructor(data, index, group, initialAngle) {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
@@ -14,8 +14,9 @@ export default class Block {
         this.index = index;
         this.numberOfBlocks = blocksData.length;
         this.resource = this.resources.items[data.name];
-        this.angle = angle;
+        this.initialAngle = initialAngle;
         this.radius = 8;
+        this.oneStep = (Math.PI * 2) / this.numberOfBlocks;
 
         if (!this.resource) {
             console.error(`Geen resource gevonden voor model: ${data.name}`);
@@ -63,14 +64,20 @@ export default class Block {
     }
 
     setModelPosition() {
-        const x = Math.sin(this.angle) * this.radius;
-        const y = Math.cos(this.angle) * this.radius;
+        // Bereken de nieuwe hoek door de huidige hoek (initialAngle) te updaten met het aantal stappen
+        const newAngle =
+            this.initialAngle - this.world.currentPosition * this.oneStep;
+        const x = Math.sin(newAngle) * this.radius;
+        const y = Math.cos(newAngle) * this.radius;
         this.model.position.set(x, y, 0);
     }
 
     placeInCarousel() {
-        const targetX = Math.sin(this.angle) * this.radius;
-        const targetY = Math.cos(this.angle) * this.radius;
+        // Bereken de nieuwe hoek door de huidige hoek (initialAngle) te updaten met het aantal stappen
+        const newAngle =
+            this.initialAngle - this.world.currentPosition * this.oneStep;
+        const targetX = Math.sin(newAngle) * this.radius;
+        const targetY = Math.cos(newAngle) * this.radius;
         this.AnimateModelPosition(targetX, targetY, 0);
     }
 
