@@ -132,12 +132,16 @@ export default class World {
         this.handleText();
     }
     switchWorldStatus() {
+        const circleElement = document.getElementById("circle");
+
         if (this.worldStatus === "blocksCarousel") {
             this.worldStatus = "space";
             this.hideText(); // Verberg de tekst meteen als de wereld naar 'space' gaat
+            circleElement.classList.add("active"); // Voeg de 'active' class toe aan circle
         } else if (this.worldStatus === "space") {
             this.worldStatus = "blocksCarousel";
             this.handleText();
+            circleElement.classList.remove("active"); // Verwijder de 'active' class van circle
         }
     }
 

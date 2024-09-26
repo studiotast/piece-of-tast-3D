@@ -118,7 +118,7 @@ p {
     text-align: center;
     font-family: bilo, sans-serif;
 }
-.circle {
+.half-circle {
     position: fixed;
     bottom: 0;
     left: 50%;
@@ -159,4 +159,90 @@ p {
 
 #text.visible {
     opacity: 1;
+}
+
+.circle-wrapper {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    #circle {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 20px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid var(--white);
+        border-radius: 999px;
+        bottom: 0;
+        transform: translateY(-35vh);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        /* Voeg een transition toe voor de grootte van circle */
+        transition: width 0.3s ease-in-out, height 0.3s ease-in-out,
+            transform 0.3s ease-in-out;
+
+        i {
+            transform: scale(0); /* Gebruik scale voor animatie */
+            opacity: 0;
+
+            /* Voeg een transition toe voor de transform en opacity */
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            color: var(--white);
+        }
+    }
+}
+
+/* @keyframes shake {
+    0%,
+    100% {
+        transform: translate(0, -38vh);
+    }
+    20% {
+        transform: translate(20px, -38vh);
+    }
+    40% {
+        transform: translate(-20px, -38vh);
+    }
+    60% {
+        transform: translate(25px, -38vh);
+    }
+    80% {
+        transform: translate(-25px, -38vh);
+    }
+} */
+@keyframes shake {
+    0%,
+    100% {
+        transform: translate(0, -38vh);
+    }
+    2% {
+        transform: translate(15px, -38vh);
+    }
+    4% {
+        transform: translate(-15px, -38vh);
+    }
+    6% {
+        transform: translate(15px, -38vh);
+    }
+    8% {
+        transform: translate(0, -38vh);
+    }
+}
+#circle.active {
+    width: 52px;
+    height: 52px;
+    transform: translateY(
+        -38vh
+    ); /* Oneindige animatie met schudden en wachten */
+    animation: shake 10s ease-in-out 3s infinite;
+
+    i {
+        transform: scale(1); /* Schaal het pictogram naar normale grootte */
+        opacity: 1;
+    }
 }

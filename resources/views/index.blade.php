@@ -35,9 +35,14 @@
     </div>
     <p id="block-number">#--</p>
   </div>
-  <div id='overlay'>
-    <div class='circle'></div>
-    <img class="frame" src="images/overlay.png" />
+  <div class='circle-wrapper'>
+    <div id='circle'>
+      <i class="fa-solid fa-home"></i>
+    </div>
+    <div id='overlay'>
+      <div class='half-circle'></div>
+      <img class="frame" src="images/overlay.png" />
+    </div>
   </div>
   @vite('resources/assets/script.js')
   <script>
