@@ -23,6 +23,8 @@ export default class World {
         this.numberOfBlocks = blocksData.length;
 
         this.updateModulo();
+        this.overlay = document.getElementById("overlay");
+        this.overlay.style.display = "none";
 
         // Debug
         if (this.debug.active) {
@@ -43,10 +45,18 @@ export default class World {
                 increase: () => this.increase(),
                 decrease: () => this.decrease(),
                 switchWorldStatus: () => this.switchWorldStatus(),
+                toggleOverlay: () => {
+                    if (this.overlay.style.display === "block") {
+                        this.overlay.style.display = "none";
+                    } else {
+                        this.overlay.style.display = "block";
+                    }
+                },
             };
             this.debugFolder.add(debugObject, "increase");
             this.debugFolder.add(debugObject, "decrease");
             this.debugFolder.add(debugObject, "switchWorldStatus");
+            this.debugFolder.add(debugObject, "toggleOverlay");
         }
     }
 

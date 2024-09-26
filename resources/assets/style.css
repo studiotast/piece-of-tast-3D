@@ -82,7 +82,7 @@ p {
     outline: none;
 }
 
-.overlay {
+.frame {
     position: fixed;
     top: 0;
     left: 0;
@@ -126,4 +126,8 @@ p {
     background-color: var(--pale-grey);
     border-top-left-radius: 999px;
     border-top-right-radius: 999px;
+}
+
+.bottom i {
+    font-size: 32px;
 }
