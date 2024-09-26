@@ -24,14 +24,15 @@ export default class Environment {
         this.sunLight.shadow.mapSize.set(1024, 1024);
         this.sunLight.shadow.normalBias = 0.05;
         this.sunLight.position.set(-0.5, 8, 5);
-        this.sunLightHelper = new THREE.DirectionalLightHelper(
-            this.sunLight,
-            2
-        );
         this.scene.add(this.sunLight);
-        if (this.debug.active) {
-            this.scene.add(this.sunLightHelper);
-        }
+
+        // this.sunLightHelper = new THREE.DirectionalLightHelper(
+        //     this.sunLight,
+        //     2
+        // );
+        // if (this.debug.active) {
+        //     this.scene.add(this.sunLightHelper);
+        // }
 
         // shadow settings
         this.sunLight.shadow.camera.far = 8;

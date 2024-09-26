@@ -37,7 +37,7 @@
   </div>
   <div class='circle-wrapper'>
     <div id='circle'>
-      <i class="fa-solid fa-home"></i>
+      <i class="fa-solid fa-thought-bubble"></i>
     </div>
     <div id='overlay'>
       <div class='half-circle'></div>

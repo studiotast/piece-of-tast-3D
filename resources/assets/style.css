@@ -187,6 +187,7 @@ p {
             transform 0.3s ease-in-out;
 
         i {
+            font-size: 22px;
             transform: scale(0); /* Gebruik scale voor animatie */
             opacity: 0;
 
