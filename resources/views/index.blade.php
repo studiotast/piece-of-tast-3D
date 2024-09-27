@@ -27,10 +27,10 @@
   <div class='bottom'>
     <div class='left'>
       <div id='home-icon'>
-        <i class="fa-solid fa-home"></i>
+        <i class="fa-light fa-home"></i>
       </div>
       <div id='angle-icon'>
-        <i class="fa-solid fa-angle-90"></i>
+        <i class="fa-light fa-angle-90"></i>
       </div>
     </div>
     <p id="block-number">#--</p>
