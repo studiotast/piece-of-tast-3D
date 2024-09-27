@@ -274,6 +274,14 @@ p {
     color: var(--white);
     font-size: 16;
     line-height: 24px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    .calendar-text {
+        color: var(--dark-slate-grey);
+    }
 }
 
 #block-text.visible {

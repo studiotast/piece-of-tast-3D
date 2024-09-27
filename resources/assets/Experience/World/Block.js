@@ -49,11 +49,13 @@ export default class Block {
     setBlockText() {
         const block = blocksData[this.world.modulo];
 
-        this.world.blockTextElement.textContent = `${
+        this.world.blockTextElement.innerHTML =
             block.client_text === null
-                ? "Dit blokje is nog niet uitgegeven"
-                : block.client_text
-        }`;
+                ? "<p>Dit blokje is nog niet ingevuld</p>"
+                : `
+                    <p>${block.client_text}</p>
+                    <p class='calendar-text'><i class="fa-solid fa-calendar"></i> 15 september 2024</p>
+                `;
     }
 
     setRandomDirection() {
