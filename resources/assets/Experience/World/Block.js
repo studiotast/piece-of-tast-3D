@@ -2,6 +2,8 @@ import * as THREE from "three";
 import Experience from "../Experience.js";
 import World from "./World.js";
 import { blocksData } from "../sources.js";
+// const { DateTime } = require("luxon");
+import { DateTime } from "luxon";
 
 export default class Block {
     constructor(data, index, group, initialAngle) {
@@ -49,12 +51,22 @@ export default class Block {
     setBlockText() {
         const block = blocksData[this.world.modulo];
 
+        let formattedDate = "";
+        if (block.client_text_set_at) {
+            // Parse the ISO string and format it as desired
+            const date = DateTime.fromISO(block.client_text_set_at);
+            formattedDate = date.toLocaleString(DateTime.DATE_FULL); // For example: September 15, 2024
+        }
+
         this.world.blockTextElement.innerHTML =
             block.client_text === null
                 ? "<p>Dit blokje is nog niet ingevuld</p>"
                 : `
                     <p>${block.client_text}</p>
-                    <p class='calendar-text'><i class="fa-solid fa-calendar"></i> 15 september 2024</p>
+                    <p class='calendar-text'>
+                        <i class="fa-solid fa-calendar"></i> 
+                        ${formattedDate}
+                    </p>
                 `;
     }
 

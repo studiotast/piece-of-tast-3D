@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "lil-gui": "^0.19.2",
+        "luxon": "^3.5.0",
         "three": "^0.166.1",
         "vercel": "^34.2.3"
     }
