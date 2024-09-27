@@ -56,6 +56,9 @@
 
 html {
     scroll-behavior: smooth;
+    /* background: #003232; */
+    background-image: radial-gradient(#094941, #003232);
+    height: 100%;
 }
 
 h1,
