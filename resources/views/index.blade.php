@@ -21,7 +21,7 @@
 <body>
   <canvas class="webgl"></canvas>
   <div class='tast-logo'>
-    <img src='images/tast-logo-white.png' />
+    <img src='images/tast-logo-white.svg' />
   </div>
   <p id='text' class="visible">
     Een stukje tast...
