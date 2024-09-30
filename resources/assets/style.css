@@ -97,7 +97,7 @@ p {
 
 .bottom {
     position: fixed;
-    height: 82px;
+    height: 80px;
     width: 100%;
     bottom: 0;
     background-color: var(--white);
