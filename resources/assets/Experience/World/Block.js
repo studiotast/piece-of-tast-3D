@@ -151,6 +151,24 @@ export default class Block {
         );
     }
 
+    AnimateModelRotation(targetX, targetY, targetZ) {
+        this.model.rotation.x = THREE.MathUtils.lerp(
+            this.model.rotation.x,
+            targetX,
+            0.1
+        );
+        this.model.rotation.y = THREE.MathUtils.lerp(
+            this.model.rotation.y,
+            targetY,
+            0.1
+        );
+        this.model.rotation.z = THREE.MathUtils.lerp(
+            this.model.rotation.z,
+            targetZ,
+            0.1
+        );
+    }
+
     // Nieuwe methode om te checken of de wereldstatus is veranderd
     checkWorldStatusChange() {
         if (this.previousWorldStatus !== this.world.worldStatus) {
@@ -160,18 +178,18 @@ export default class Block {
     }
 
     update() {
-        this.model.rotation.y +=
-            this.time.delta * this.rotationSpeedY * this.directionY;
-        this.model.rotation.z +=
-            this.time.delta * this.rotationSpeedZ * this.directionZ;
-        this.model.rotation.x +=
-            this.time.delta * this.rotationSpeedX * this.directionX;
-
         this.checkWorldStatusChange();
         if (this.world.worldStatus === "blocksCarousel") {
             const targetScale = this.getTargetScaleForCarousel();
             this.animateModelScale(targetScale);
             this.placeInCarousel();
+
+            this.model.rotation.y +=
+                this.time.delta * this.rotationSpeedY * this.directionY;
+            this.model.rotation.z +=
+                this.time.delta * this.rotationSpeedZ * this.directionZ;
+            this.model.rotation.x +=
+                this.time.delta * this.rotationSpeedX * this.directionX;
         } else if (this.world.worldStatus === "space") {
             const targetScale = this.world.modulo === this.index ? 1.5 : 0.75;
             this.animateModelScale(targetScale);
@@ -180,8 +198,19 @@ export default class Block {
             if (this.world.modulo === this.index) {
                 this.AnimateModelPosition(0, 10, 0);
                 this.setBlockText();
+                this.AnimateModelRotation(
+                    this.world.gyro.gyroY,
+                    this.world.gyro.gyroZ,
+                    this.world.gyro.gyroX
+                );
             } else {
                 this.placeInSpace();
+                this.model.rotation.y +=
+                    this.time.delta * this.rotationSpeedY * this.directionY;
+                this.model.rotation.z +=
+                    this.time.delta * this.rotationSpeedZ * this.directionZ;
+                this.model.rotation.x +=
+                    this.time.delta * this.rotationSpeedX * this.directionX;
             }
         }
     }

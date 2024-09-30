@@ -6,7 +6,7 @@ import { blocksData } from "../sources.js";
 let instance = null;
 
 const deviceURL = "http://192.168.1.217";
-const gyroDiff = 0.04;
+const gyroDiff = 0.2;
 export default class World {
     constructor() {
         // Singleton
@@ -25,7 +25,6 @@ export default class World {
         // Variables
         this.currentPosition = 0;
         this.numberOfBlocks = blocksData.length;
-        this.acc = {};
         this.gyro = {};
         this.lastZGyro = 0;
 
@@ -57,31 +56,47 @@ export default class World {
         };
 
         this.eventSource.addEventListener("accelerometer_readings", (e) => {
-            console.log(JSON.parse(e.data));
+            let acc = JSON.parse(e.data);
+
+            if (this.worldStatus === "blocksCarousel") {
+                if (acc && acc.accZ) {
+                    if (acc.accZ > 3 && acc.accZ < 9) {
+                        this.switchWorldStatus();
+                    } else if (acc.accZ > 11) {
+                        this.switchWorldStatus();
+                    }
+                }
+            }
         });
 
         this.eventSource.addEventListener("gyro_readings", (e) => {
             let gyro = JSON.parse(e.data);
+            console.log(gyro);
+            this.gyro = gyro;
 
-            if (gyro && gyro.gyroZ) {
-                if (gyro.gyroZ - this.lastZGyro > gyroDiff) {
-                    fetch(`${deviceURL}/handleRotation`)
-                        .then(() => {
-                            this.increase();
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                    this.lastZGyro = gyro.gyroZ;
-                } else if (Math.abs(gyro.gyroZ - this.lastZGyro) > gyroDiff) {
-                    fetch(`${deviceURL}/handleRotation`)
-                        .then(() => {
-                            this.decrease();
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                    this.lastZGyro = gyro.gyroZ;
+            if (this.worldStatus === "blocksCarousel") {
+                if (gyro && gyro.gyroZ) {
+                    if (gyro.gyroZ - this.lastZGyro > gyroDiff) {
+                        fetch(`${deviceURL}/handleRotation`)
+                            .then(() => {
+                                this.increase();
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                        this.lastZGyro = gyro.gyroZ;
+                    } else if (
+                        Math.abs(gyro.gyroZ - this.lastZGyro) > gyroDiff
+                    ) {
+                        fetch(`${deviceURL}/handleRotation`)
+                            .then(() => {
+                                this.decrease();
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                        this.lastZGyro = gyro.gyroZ;
+                    }
                 }
             }
         });
@@ -132,7 +147,7 @@ export default class World {
 
         // Angle icon click listener
         this.resetIconElement.addEventListener("click", () => {
-            console.log("Angle icon clicked");
+            fetch(`${deviceURL}/reset`);
         });
     }
 
@@ -169,11 +184,13 @@ export default class World {
     }
 
     increase() {
+        console.log("increase", this.currentPosition);
         this.currentPosition = this.currentPosition + 1;
         this.updateModulo();
         this.handleText();
     }
     decrease() {
+        console.log("decrease", this.currentPosition);
         this.currentPosition = this.currentPosition - 1;
         this.updateModulo();
         this.handleText();
