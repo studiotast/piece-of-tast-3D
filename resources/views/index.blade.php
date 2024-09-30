@@ -2,9 +2,17 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="https://use.typekit.net/qxf5lla.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="application-name" content="MyApp" />
+  <meta name="apple-mobile-web-app-title" content="StukjeTast" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="apple-touch-icon" href="/icon.png" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://use.typekit.net/qxf5lla.css" />
   <script src="https://kit.fontawesome.com/7258cbfd4b.js" crossorigin="anonymous"></script>
   <title>Stukje tast fysiek</title>
   @vite('resources/assets/style.css')
