@@ -4,6 +4,9 @@ import BlocksGroup from "./BlocksGroup.js";
 import { blocksData } from "../sources.js";
 
 let instance = null;
+
+const deviceURL = "http://192.168.1.217";
+const gyroDiff = 0.04;
 export default class World {
     constructor() {
         // Singleton
@@ -22,6 +25,9 @@ export default class World {
         // Variables
         this.currentPosition = 0;
         this.numberOfBlocks = blocksData.length;
+        this.acc = {};
+        this.gyro = {};
+        this.lastZGyro = 0;
 
         // Text variables
         this.rotationTimeout = null;
@@ -40,6 +46,45 @@ export default class World {
         this.overlay = document.getElementById("overlay");
         this.overlay.style.display = "none";
         this.setupIconClickListeners();
+
+        //Connect to Controller
+        this.eventSource = new EventSource(`${deviceURL}/events`);
+
+        fetch(`${deviceURL}/enableSensors`);
+
+        this.eventSource.onmessage = (e) => {
+            console.log(e);
+        };
+
+        this.eventSource.addEventListener("accelerometer_readings", (e) => {
+            console.log(JSON.parse(e.data));
+        });
+
+        this.eventSource.addEventListener("gyro_readings", (e) => {
+            let gyro = JSON.parse(e.data);
+
+            if (gyro && gyro.gyroZ) {
+                if (gyro.gyroZ - this.lastZGyro > gyroDiff) {
+                    fetch(`${deviceURL}/handleRotation`)
+                        .then(() => {
+                            this.increase();
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    this.lastZGyro = gyro.gyroZ;
+                } else if (Math.abs(gyro.gyroZ - this.lastZGyro) > gyroDiff) {
+                    fetch(`${deviceURL}/handleRotation`)
+                        .then(() => {
+                            this.decrease();
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    this.lastZGyro = gyro.gyroZ;
+                }
+            }
+        });
 
         // Create an instance of Blocks and add the group to the scene
         this.blocksGroup = new BlocksGroup();
