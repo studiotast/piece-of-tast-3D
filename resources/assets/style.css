@@ -126,8 +126,8 @@ p {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    height: 230px;
-    width: 60vw;
+    height: 220px;
+    width: 55vw;
     background-color: var(--pale-grey);
     border-top-left-radius: 999px;
     border-top-right-radius: 999px;
