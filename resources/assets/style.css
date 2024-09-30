@@ -97,19 +97,19 @@ p {
 
 .bottom {
     position: fixed;
-    height: 92px;
+    height: 82px;
     width: 100%;
     bottom: 0;
     background-color: var(--white);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    padding: 10px 24px;
 }
 .bottom .left {
     align-items: center;
     display: flex;
-    gap: 66px;
+    gap: 54px;
 }
 .bottom svg {
     font-size: 25px;
