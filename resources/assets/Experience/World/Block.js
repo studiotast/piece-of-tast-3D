@@ -198,11 +198,13 @@ export default class Block {
             if (this.world.modulo === this.index) {
                 this.AnimateModelPosition(0, 10, 0);
                 this.setBlockText();
-                this.AnimateModelRotation(
-                    this.world.gyro.gyroY,
-                    this.world.gyro.gyroZ,
-                    this.world.gyro.gyroX
-                );
+                if (this.world.gyro.gyroY) {
+                    this.AnimateModelRotation(
+                        this.world.gyro.gyroY,
+                        this.world.gyro.gyroZ,
+                        this.world.gyro.gyroX
+                    );
+                }
             } else {
                 this.placeInSpace();
                 this.model.rotation.y +=
