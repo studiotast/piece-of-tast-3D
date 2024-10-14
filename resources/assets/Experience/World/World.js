@@ -56,6 +56,15 @@ export default class World {
         };
 
         this.eventSource.addEventListener("accelerometer_readings", (e) => {
+            if (this.worldStatus == "space") {
+                let data = JSON.parse(e.data);
+                let combinedResult = Math.sqrt(
+                    Math.pow(data.accX, 2) +
+                        Math.pow(data.accY, 2) +
+                        Math.pow(data.accZ, 2)
+                );
+                if (combinedResult > 13 || combinedResult < 7) {
+                    this.blockShaked();
                 }
             }
         });
@@ -77,7 +86,6 @@ export default class World {
 
         this.eventSource.addEventListener("gyro_readings", (e) => {
             let gyro = JSON.parse(e.data);
-            console.log(gyro);
             this.gyro = gyro;
 
             if (this.worldStatus === "blocksCarousel") {
