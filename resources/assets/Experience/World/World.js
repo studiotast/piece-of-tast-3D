@@ -56,16 +56,22 @@ export default class World {
         };
 
         this.eventSource.addEventListener("accelerometer_readings", (e) => {
-            let acc = JSON.parse(e.data);
-
-            if (this.worldStatus === "blocksCarousel") {
-                if (acc && acc.accZ) {
-                    if (acc.accZ > 3 && acc.accZ < 9) {
-                        this.switchWorldStatus();
-                    } else if (acc.accZ > 11) {
-                        this.switchWorldStatus();
-                    }
                 }
+            }
+        });
+
+        this.eventSource.addEventListener("device_status", (e) => {
+            let data = JSON.parse(e.data);
+            if (!data.onDevice) {
+                this.worldStatus = "space";
+                this.textElement.classList.remove("visible");
+                this.circleElement.classList.add("active");
+            } else {
+                this.worldStatus = "blocksCarousel";
+                this.handleText();
+                this.circleElement.classList.remove("active");
+                this.circleElement.classList.remove("hidden");
+                this.blockTextElement.classList.remove("visible");
             }
         });
 
