@@ -91,10 +91,9 @@ export default class World {
             if (this.worldStatus === "blocksCarousel") {
                 if (gyro && gyro.gyroZ) {
                     if (gyro.gyroZ - this.lastZGyro > gyroDiff) {
+                        this.increase();
                         fetch(`${deviceURL}/handleRotation`)
-                            .then(() => {
-                                this.increase();
-                            })
+                            .then(() => {})
                             .catch((error) => {
                                 console.error(error);
                             });
@@ -102,10 +101,9 @@ export default class World {
                     } else if (
                         Math.abs(gyro.gyroZ - this.lastZGyro) > gyroDiff
                     ) {
+                        this.decrease();
                         fetch(`${deviceURL}/handleRotation`)
-                            .then(() => {
-                                this.decrease();
-                            })
+                            .then(() => {})
                             .catch((error) => {
                                 console.error(error);
                             });
