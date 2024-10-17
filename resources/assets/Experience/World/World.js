@@ -227,9 +227,11 @@ export default class World {
         this.circleElement.classList.add("hidden");
         this.circleElement.classList.remove("active");
         setTimeout(() => {
-            this.blockTextElement.classList.remove("visible");
-            this.circleElement.classList.add("active");
-            this.circleElement.classList.remove("hidden");
+            if (this.worldStatus === "space") {
+                this.blockTextElement.classList.remove("visible");
+                this.circleElement.classList.add("active");
+                this.circleElement.classList.remove("hidden");
+            }
         }, 10000); // Pas deze waarde aan om de zichtbaarheid te regelen (hier 10 seconden)
     }
 
