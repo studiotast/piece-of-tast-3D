@@ -236,6 +236,10 @@ export default class World {
             shakedWithContent.play();
         }
 
+        if (this.shakedTextTimeout) {
+            clearTimeout(this.shakedTextTimeout);
+        }
+
         this.shakedTextTimeout = setTimeout(() => {
             if (this.worldStatus === "space") {
                 this.blockTextElement.classList.remove("visible");
