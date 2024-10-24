@@ -5,6 +5,10 @@ import { blocksData } from "../sources.js";
 
 let instance = null;
 
+var liftUpSound = new Audio("/audio/optillen.mp3");
+var shakedWithContent = new Audio("/audio/goed.mp3");
+var shakedNoContent = new Audio("/audio/fout.mp3");
+
 const deviceURL = "http://192.168.1.217";
 const gyroDiff = 0.2;
 export default class World {
@@ -30,6 +34,7 @@ export default class World {
 
         // Text variables
         this.rotationTimeout = null;
+        this.shakedTextTimeout = null;
         this.idleTime = 3000; // 3 seconds of no rotation
 
         // HTML Elements
@@ -72,15 +77,9 @@ export default class World {
         this.eventSource.addEventListener("device_status", (e) => {
             let data = JSON.parse(e.data);
             if (!data.onDevice) {
-                this.worldStatus = "space";
-                this.textElement.classList.remove("visible");
-                this.circleElement.classList.add("active");
+                this.setWorldStatusToSpace();
             } else {
-                this.worldStatus = "blocksCarousel";
-                this.handleText();
-                this.circleElement.classList.remove("active");
-                this.circleElement.classList.remove("hidden");
-                this.blockTextElement.classList.remove("visible");
+                this.setWorldStatusToCarousel();
             }
         });
 
@@ -135,13 +134,15 @@ export default class World {
                     }
                 },
                 blockShaked: () => this.blockShaked(),
-                switchWorldStatus: () => this.switchWorldStatus(),
+                setWorldStatusToCarousel: () => this.setWorldStatusToCarousel(),
+                setWorldStatusToSpace: () => this.setWorldStatusToSpace(),
             };
             this.debugFolder.add(debugObject, "increase");
             this.debugFolder.add(debugObject, "decrease");
             this.debugFolder.add(debugObject, "toggleOverlay");
             this.debugFolder.add(debugObject, "blockShaked");
-            this.debugFolder.add(debugObject, "switchWorldStatus");
+            this.debugFolder.add(debugObject, "setWorldStatusToCarousel");
+            this.debugFolder.add(debugObject, "setWorldStatusToSpace");
         }
     }
 
@@ -196,37 +197,46 @@ export default class World {
     }
 
     increase() {
-        console.log("increase", this.currentPosition);
+        // console.log("increase", this.currentPosition);
         this.currentPosition = this.currentPosition + 1;
         this.updateModulo();
         this.handleText();
     }
     decrease() {
-        console.log("decrease", this.currentPosition);
+        // console.log("decrease", this.currentPosition);
         this.currentPosition = this.currentPosition - 1;
         this.updateModulo();
         this.handleText();
     }
 
-    switchWorldStatus() {
-        if (this.worldStatus === "blocksCarousel") {
-            this.worldStatus = "space";
-            this.textElement.classList.remove("visible");
-            this.circleElement.classList.add("active");
-        } else if (this.worldStatus === "space") {
-            this.worldStatus = "blocksCarousel";
-            this.handleText();
-            this.circleElement.classList.remove("active");
-            this.circleElement.classList.remove("hidden");
-            this.blockTextElement.classList.remove("visible");
-        }
+    setWorldStatusToSpace() {
+        this.worldStatus = "space";
+        this.textElement.classList.remove("visible");
+        this.circleElement.classList.add("active");
+        liftUpSound.play();
+    }
+
+    setWorldStatusToCarousel() {
+        this.worldStatus = "blocksCarousel";
+        this.handleText();
+        this.circleElement.classList.remove("active");
+        this.circleElement.classList.remove("hidden");
+        this.blockTextElement.classList.remove("visible");
+        clearTimeout(this.shakedTextTimeout);
     }
 
     blockShaked() {
         this.blockTextElement.classList.add("visible");
         this.circleElement.classList.add("hidden");
         this.circleElement.classList.remove("active");
-        setTimeout(() => {
+        const block = blocksData[this.modulo];
+        if (block.client_text === null) {
+            shakedNoContent.play();
+        } else {
+            shakedWithContent.play();
+        }
+
+        this.shakedTextTimeout = setTimeout(() => {
             if (this.worldStatus === "space") {
                 this.blockTextElement.classList.remove("visible");
                 this.circleElement.classList.add("active");
