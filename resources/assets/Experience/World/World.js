@@ -141,8 +141,8 @@ export default class World {
             this.debugFolder.add(debugObject, "decrease");
             this.debugFolder.add(debugObject, "toggleOverlay");
             this.debugFolder.add(debugObject, "blockShaked");
-            this.debugFolder.add(debugObject, "setWorldStatusToCarousel");
             this.debugFolder.add(debugObject, "setWorldStatusToSpace");
+            this.debugFolder.add(debugObject, "setWorldStatusToCarousel");
         }
     }
 
