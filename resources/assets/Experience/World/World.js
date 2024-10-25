@@ -164,6 +164,8 @@ export default class World {
         });
         this.blockNumberElement.addEventListener("click", () => {
             shakedWithContent.play();
+            shakedNoContent.play();
+            liftUpSound.play();
         });
     }
 
