@@ -218,7 +218,12 @@ export default class World {
         this.worldStatus = "space";
         this.textElement.classList.remove("visible");
         this.circleElement.classList.add("active");
-        liftUpSound.play();
+        //liftUpSound.play();
+        fetch(`${deviceURL}/pickup`)
+            .then(() => {})
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     setWorldStatusToCarousel() {
@@ -236,9 +241,19 @@ export default class World {
         this.circleElement.classList.remove("active");
         const block = blocksData[this.modulo];
         if (block.client_text === null) {
-            shakedNoContent.play();
+            // shakedNoContent.play();
+            fetch(`${deviceURL}/shake-empty`)
+                .then(() => {})
+                .catch((error) => {
+                    console.error(error);
+                });
         } else {
-            shakedWithContent.play();
+            // shakedWithContent.play();
+            fetch(`${deviceURL}/shake-full`)
+                .then(() => {})
+                .catch((error) => {
+                    console.error(error);
+                });
         }
 
         if (this.shakedTextTimeout) {
