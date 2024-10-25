@@ -162,6 +162,9 @@ export default class World {
         this.resetIconElement.addEventListener("click", () => {
             fetch(`${deviceURL}/reset`);
         });
+        this.blockNumberElement.addEventListener("click", () => {
+            shakedWithContent.play();
+        });
     }
 
     // Update the modulo and the displayed number

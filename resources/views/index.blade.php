@@ -24,7 +24,7 @@
     <img src='images/tast-logo-white.svg' />
   </div>
   <p id='text' class="visible">
-    Een stukje tast... v6
+    Een stukje tast...
     <br />
     <br />
     In deze galerij vind je de volledige verzameling van geadopteerde stukjes Tast. Deel ook jouw leermoment, bewonder de blokjes en ontdek wat anderen hebben gedeeld.
